@@ -33,10 +33,10 @@ packBigData = []
 
 while traci.simulation.getMinExpectedNumber() > 0:
 
-    traci.simulationStep();
+    traci.simulationStep()
 
-    vehicles = traci.vehicle.getIDList();
-    trafficlights = traci.trafficlight.getIDList();
+    vehicles = traci.vehicle.getIDList()
+    trafficlights = traci.trafficlight.getIDList()
 
     for i in range(0, len(vehicles)):
 
@@ -59,18 +59,18 @@ while traci.simulation.getMinExpectedNumber() > 0:
         vehList = [getdatetime(), vehid, coord, gpscoord, spd, edge, lane, displacement, turnAngle, nextTLS]
 
         print("Vehicle: ", vehicles[i], " at datetime: ", getdatetime())
-        print(vehicles[i], " >>> Position: ", coord, " | GPS Position: ", gpscoord, " |", \
-              " Speed: ", round(traci.vehicle.getSpeed(vehicles[i]) * 3.6, 2), "km/h |", \
+        print(vehicles[i], " >>> Position: ", coord, " | GPS Position: ", gpscoord, " |",
+              " Speed: ", round(traci.vehicle.getSpeed(vehicles[i]) * 3.6, 2), "km/h |",
               # Returns the id of the edge the named vehicle was at within the last step.
-              " EdgeID of veh: ", traci.vehicle.getRoadID(vehicles[i]), " |", \
+              " EdgeID of veh: ", traci.vehicle.getRoadID(vehicles[i]), " |",
               # Returns the id of the lane the named vehicle was at within the last step.
-              " LaneID of veh: ", traci.vehicle.getLaneID(vehicles[i]), " |", \
+              " LaneID of veh: ", traci.vehicle.getLaneID(vehicles[i]), " |",
               # Returns the distance to the starting point like an odometer.
-              " Distance: ", round(traci.vehicle.getDistance(vehicles[i]), 2), "m |", \
+              " Distance: ", round(traci.vehicle.getDistance(vehicles[i]), 2), "m |",
               # Returns the angle in degrees of the named vehicle within the last step.
-              " Vehicle orientation: ", round(traci.vehicle.getAngle(vehicles[i]), 2), "deg |", \
+              " Vehicle orientation: ", round(traci.vehicle.getAngle(vehicles[i]), 2), "deg |",
               # Return list of upcoming traffic lights [(tlsID, tlsIndex, distance, state), ...]
-              " Upcoming traffic lights: ", traci.vehicle.getNextTLS(vehicles[i]), \
+              " Upcoming traffic lights: ", traci.vehicle.getNextTLS(vehicles[i]),
               )
 
         idd = traci.vehicle.getLaneID(vehicles[i])
@@ -94,19 +94,19 @@ while traci.simulation.getMinExpectedNumber() > 0:
                 # Packing of all the data for export to CSV/XLSX
                 tlsList = [tflight, tl_state, tl_phase_duration, tl_lanes_controlled, tl_program, tl_next_switch]
 
-                print(trafficlights[k], " --->", \
+                print(trafficlights[k], " --->",
                       # Returns the named tl's state as a tuple of light definitions from rRgGyYoO, for red,
                       # green, yellow, off, where lower case letters mean that the stream has to decelerate
-                      " TL state: ", traci.trafficlight.getRedYellowGreenState(trafficlights[k]), " |" \
+                      " TL state: ", traci.trafficlight.getRedYellowGreenState(trafficlights[k]), " |"
                           # Returns the default total duration of the currently active phase in seconds; To obtain the
                       # remaining duration use (getNextSwitch() - simulation.getTime()); to obtain the spent duration
                       # subtract the remaining from the total duration
                                                                                                   " TLS phase duration: ",
-                      traci.trafficlight.getPhaseDuration(trafficlights[k]), " |" \
+                      traci.trafficlight.getPhaseDuration(trafficlights[k]), " |"
                           # Returns the list of lanes which are controlled by the named traffic light. Returns at least
                       # one entry for every element of the phase state (signal index)                                
                                                                              " Lanes controlled: ",
-                      traci.trafficlight.getControlledLanes(trafficlights[k]), " |", \
+                      traci.trafficlight.getControlledLanes(trafficlights[k]), " |",
                       # Returns the complete traffic light program, structure described under data types
                       " TLS Program: ", traci.trafficlight.getCompleteRedYellowGreenDefinition(trafficlights[k]), " |"
                       # Returns the assumed time (in seconds) at which the tls changes the phase. Please note that
@@ -150,8 +150,7 @@ traci.close()
 
 # Generate Excel file
 columnnames = ['dateandtime', 'vehid', 'coord', 'gpscoord', 'spd', 'edge', 'lane', 'displacement', 'turnAngle',
-               'nextTLS', \
-               'tflight', 'tl_state', 'tl_phase_duration', 'tl_lanes_controlled', 'tl_program', 'tl_next_switch']
+               'nextTLS', 'tflight', 'tl_state', 'tl_phase_duration', 'tl_lanes_controlled', 'tl_program', 'tl_next_switch']
 dataset = pd.DataFrame(packBigData, index=None, columns=columnnames)
 dataset.to_excel("output.xlsx", index=False)
 time.sleep(5)
