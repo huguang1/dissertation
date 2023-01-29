@@ -14,28 +14,16 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Macbook Tutorial:
 install stallation guide: https://www.youtube.com/watch?v=JAAPLxgQ5UQ
 
 net.xml: is the file "osm.net.xml.gz"
 
 route.xml: is the file "osm.passenger.trips.xml"
+
+### python run SUMO
+
+
 
 
 ### problems
