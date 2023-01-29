@@ -38,8 +38,10 @@ net.xml: is the file "osm.net.xml.gz"
 route.xml: is the file "osm.passenger.trips.xml"
 
 
+### problems
 current problem: the software sometime crashes
 
 ### change bash and zsh
 hsh -s /bin/bash
+
 chsh -s /bin/zsh
