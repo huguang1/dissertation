@@ -1,6 +1,5 @@
 import traci
 import time
-import traci.constants as tc
 import pytz
 import datetime
 from random import randrange
