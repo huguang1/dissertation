@@ -39,6 +39,8 @@ chsh -s /bin/zsh
 ### Reinforcement Learning
 link: https://www.youtube.com/watch?v=FgzM3zpZ55o&list=PLoROMvodv4rOSOPzutgyCTapiGlY2Nd8u
 https://www.youtube.com/watch?v=vmkRMvhCW5c&list=PLvOO0btloRnsiqM72G4Uid0UWljikENlU&index=1
+https://www.javatpoint.com/reinforcement-learning
+https://towardsdatascience.com/reinforcement-learning-101-e24b50e1d292
 ####basic concept
 station  this frame
 action   going to do 
