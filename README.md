@@ -1,6 +1,6 @@
 # dissertation
 
-### run sumo
+## run sumo
 1. export SUMO_HOME="$PWD/sumo"
 2. cd $SUMO_HOME 
 3. cd bin
@@ -9,34 +9,34 @@
 6. python osmWebWizard.py
 7. select Area and Generate Scenario
 
-### python create net and route
+## python create net and route
 
 
 
 
-### Macbook Tutorial:
+## Macbook Tutorial:
 install stallation guide: https://www.youtube.com/watch?v=JAAPLxgQ5UQ
 
 net.xml: is the file "osm.net.xml.gz"
 
 route.xml: is the file "osm.passenger.trips.xml"
 
-### python run SUMO
+## python run SUMO
 guide: https://www.youtube.com/watch?v=zQH1n0Fvxes&t=407s
 ![](priciple.png)
 
 
 
-### problems
+## problems
 current problem: the software sometime crashes
 
-### change bash and zsh
+## change bash and zsh
 hsh -s /bin/bash
 
 chsh -s /bin/zsh
 
 
-### Reinforcement Learning
+## Reinforcement Learning
 link: 
 
 https://www.youtube.com/watch?v=FgzM3zpZ55o&list=PLoROMvodv4rOSOPzutgyCTapiGlY2Nd8u
@@ -47,7 +47,7 @@ https://www.javatpoint.com/reinforcement-learning
 
 https://towardsdatascience.com/reinforcement-learning-101-e24b50e1d292
 
-#### basic concept
+### basic concept
 station  this frame
 
 action   going to do 
@@ -85,7 +85,7 @@ state-value function
 V = E(Q(s, A))
 
 
-#### Value-Based Reinforecement Learning
+### Value-Based Reinforecement Learning
 Deep Q-network(DQN)
 
 goal maximinze the taoal reword 
@@ -98,7 +98,7 @@ TD(Temporal Different) Learning
 
 Ut = Rt + rUt+1
 
-#### Policy-based Reinforcement Learning 
+### Policy-based Reinforcement Learning 
 policy function P(A=a|S=s)
 
 state-value function
@@ -107,10 +107,10 @@ V(s; θ) = sum(π(a|s; θ)*Q(s, a))
 
 policy-based learning: J(θ) = E(V(S; θ))
 
-#### Actor-Critic Methods
+### Actor-Critic Methods
 combine value-based and policy-based
 
-#### AlphaGo 
+### AlphaGo 
 training and Execution
 1. initialize policy network using behavior cloning
 2. Train the policy network using policy gradient
@@ -120,7 +120,7 @@ Execution (actually play Go games):
 
 Do Monte Carlo Tree Search(MCTS) using the policy and value networks
 
-#### Monte Carlo Tree Search(MCTS)
+### Monte Carlo Tree Search(MCTS)
 1. selection: imaginary action, every action has a score 
 2. expansion: imaginary action, the opponent makes an action, 
 3. evaluation: evaluate the state-value and get score v, receive reword
