@@ -41,7 +41,7 @@ link: https://www.youtube.com/watch?v=FgzM3zpZ55o&list=PLoROMvodv4rOSOPzutgyCTap
 https://www.youtube.com/watch?v=vmkRMvhCW5c&list=PLvOO0btloRnsiqM72G4Uid0UWljikENlU&index=1
 https://www.javatpoint.com/reinforcement-learning
 https://towardsdatascience.com/reinforcement-learning-101-e24b50e1d292
-####basic concept
+#### basic concept
 station  this frame
 action   going to do 
 agent    action of a subject 
@@ -66,7 +66,7 @@ state-value function
 V = E(Q(s, A))
 
 
-####Value-Based Reinforecement Learning
+#### Value-Based Reinforecement Learning
 Deep Q-network(DQN)
 goal maximinze the taoal reword 
 a* = argmax Q*(s, a)
@@ -92,7 +92,7 @@ training and Execution
 Execution (actually play Go games):
 Do Monte Carlo Tree Search(MCTS) using the policy and value networks
 
-####Monte Carlo Tree Search(MCTS)
+#### Monte Carlo Tree Search(MCTS)
 1. selection: imaginary action, every action has a score 
 2. expansion: imaginary action, the opponent makes an action, 
 3. evaluation: evaluate the state-value and get score v, receive reword
