@@ -71,17 +71,12 @@
 
     <connection from="-E3" to="E4" fromLane="0" toLane="0" via=":J3_5_0" dir="s" state="M"/>   # 这个应该是定义两条道路之间的连接关系
     <connection from="-E4" to="E3" fromLane="0" toLane="0" via=":J3_0_0" dir="s" state="M"/>
-
     <connection from="E0" to="E1" fromLane="0" toLane="0" via=":J1_0_0" dir="s" state="M"/>
     <connection from="E0" to="E2" fromLane="0" toLane="0" via=":J1_1_0" dir="l" state="M"/>
-
     <connection from="E2" to="E4" fromLane="0" toLane="0" via=":J3_1_0" dir="r" state="m"/>
     <connection from="E2" to="E3" fromLane="0" toLane="0" via=":J3_4_0" dir="l" state="m"/>
-
     <connection from="E3" to="-E3" fromLane="0" toLane="0" via=":J4_0_0" dir="t" state="M"/>
-
     <connection from="E4" to="-E4" fromLane="0" toLane="0" via=":J5_0_0" dir="t" state="M"/>
-
     <connection from=":J1_0" to="E1" fromLane="0" toLane="0" dir="s" state="M"/>
     <connection from=":J1_1" to="E2" fromLane="0" toLane="0" dir="l" state="M"/>
     <connection from=":J3_0" to="E3" fromLane="0" toLane="0" dir="s" state="M"/>
