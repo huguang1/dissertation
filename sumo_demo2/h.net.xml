@@ -61,12 +61,12 @@
         <lane id="E4_2" index="2" speed="13.89" length="1000.00" shape="52.81,78.25 111.31,80.80"/>
     </edge>
 
-    <junction id="J0" type="dead_end" x="-38.47" y="13.32" incLanes="" intLanes="" shape="-38.47,13.32 -38.42,10.12"/>
+    <junction id="J0" type="dead_end" x="-38.47" y="13.32" incLanes="" intLanes="" shape="-38.47,13.32 -38.42,10.12"/>      # 这个应该就是E0的起点
     <junction id="J1" type="priority" x="47.27" y="14.63" incLanes="E0_0" intLanes=":J1_0_0 :J1_1_0" shape="54.47,14.60 54.46,11.40 43.29,11.37 43.24,14.57 45.47,15.05 46.24,15.61 46.78,16.40 47.10,17.41 47.18,18.63 50.38,18.70 50.88,16.43 51.45,15.63 52.24,15.06 53.25,14.72">
         <request index="0" response="00" foes="00" cont="0"/>
         <request index="1" response="00" foes="00" cont="0"/>
     </junction>
-    <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="107.18,11.19 107.19,14.39"/>
+    <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="107.18,11.19 107.19,14.39"/>  # 这个是E1的终点
     <junction id="J3" type="priority" x="45.84" y="79.55" incLanes="-E4_0 -E4_1 -E4_2 E2_0 -E3_0" intLanes=":J3_0_0 :J3_1_0 :J3_1_1 :J3_1_2 :J3_4_0 :J3_5_0 :J3_5_1" shape="52.32,89.44 53.16,70.26 51.00,69.73 50.25,69.15 49.72,68.37 49.42,67.38 49.34,66.18 46.14,66.11 45.96,69.24 45.58,71.80 44.99,73.79 44.20,75.21 43.20,76.07 42.00,76.35 42.00,82.75 44.47,83.23 46.04,84.43 47.16,86.00 48.28,87.59 49.85,88.85">
         <request index="0" response="0000000" foes="0010000" cont="0"/>
         <request index="1" response="1100000" foes="1100000" cont="0"/>
