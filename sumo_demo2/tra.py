@@ -1,10 +1,5 @@
 # coding=utf-8
 import traci
-import time
-import traci.constants as tc
-import pytz
-from random import randrange
-import pandas as pd
 
 sumoCmd = ["sumo-gui", "-c", "con.sumocfg"]
 traci.start(sumoCmd)
