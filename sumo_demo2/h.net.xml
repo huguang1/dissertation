@@ -43,7 +43,7 @@
         <lane id="-E4_2" index="2" speed="13.89" length="1000.00" shape="111.17,84.00 52.67,81.45"/>
     </edge>
 
-    <edge id="E0" from="J0" to="J1" priority="-1" length="2000.00">   # 这个就是最下面的那个左边那条路
+    <edge id="E0" from="J0" to="J1" priority="-1" length="2000.00">   # 这个就是最下面的那个左边那条路, 道路中同时将junction的点也注明了
         <lane id="E0_0" index="0" speed="13.89" length="2000.00" shape="-39.99,12.99 43.26,12.99"/>
     </edge>
     <edge id="E1" from="J1" to="J2" priority="-1">      # 这个就是下面右边那条路
