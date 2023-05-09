@@ -4,7 +4,7 @@
 
     <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>  # 目前为止还看不出这个有什么意义
 
-    <edge id=":J1_0" function="internal">           # 这个也是转弯的路，连接E2-E1
+    <edge id=":J1_0" function="internal">           # 这个也是转弯的路，连接E0-E1
         <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,12.99 54.46,12.99"/>
     </edge>
     <edge id=":J1_1" function="internal">           # 这个是转弯的路，连接E0-E2
@@ -88,13 +88,17 @@
     <connection from="-E3" to="E4" fromLane="0" toLane="1" via=":J3_5_0" dir="s" state="M"/>   # 这个应该是定义两条道路之间的连接关系
     <connection from="-E3" to="E4" fromLane="0" toLane="2" via=":J3_5_1" dir="s" state="M"/>
     <connection from="-E4" to="E3" fromLane="0" toLane="0" via=":J3_0_0" dir="s" state="M"/>
+
     <connection from="E0" to="E1" fromLane="0" toLane="0" via=":J1_0_0" dir="s" state="M"/>
     <connection from="E0" to="E2" fromLane="0" toLane="0" via=":J1_1_0" dir="l" state="M"/>
+
     <connection from="E2" to="E4" fromLane="0" toLane="0" via=":J3_1_0" dir="r" state="m"/>
     <connection from="E2" to="E4" fromLane="0" toLane="1" via=":J3_1_1" dir="r" state="m"/>
     <connection from="E2" to="E4" fromLane="0" toLane="2" via=":J3_1_2" dir="r" state="m"/>
     <connection from="E2" to="E3" fromLane="0" toLane="0" via=":J3_4_0" dir="l" state="m"/>
+
     <connection from="E3" to="-E3" fromLane="0" toLane="0" via=":J4_0_0" dir="t" state="M"/>
+
     <connection from="E4" to="-E4" fromLane="1" toLane="0" via=":J5_0_0" dir="t" state="M"/>
     <connection from="E4" to="-E4" fromLane="1" toLane="1" via=":J5_0_1" dir="t" state="M"/>
     <connection from="E4" to="-E4" fromLane="1" toLane="2" via=":J5_0_2" dir="t" state="M"/>
