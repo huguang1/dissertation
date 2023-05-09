@@ -48,10 +48,10 @@
     <edge id="E1" from="J1" to="J2" priority="-1">
         <lane id="E1_0" index="0" speed="13.89" length="52.72" shape="54.46,13.00 107.18,12.79"/>
     </edge>
-    <edge id="E2" from="J1" to="J3" priority="-1" length="3000.00">  # 这个就是竖直向上的那条路
+    <edge id="E2" from="J1" to="J3" priority="-1" length="3000.00">   # 这个就是竖直向上的那条路
         <lane id="E2_0" index="0" speed="13.89" length="3000.00" shape="48.78,18.66 47.74,66.14"/>
     </edge>
-    <edge id="E3" from="J3" to="J4" priority="-1" length="1000.00">
+    <edge id="E3" from="J3" to="J4" priority="-1" length="1000.00">    # 这个就是最左边的那条路
         <lane id="E3_0" index="0" speed="13.89" length="1000.00" shape="42.00,81.15 -40.13,81.15"/>
     </edge>
     <edge id="E4" from="J3" to="J5" priority="-1" length="1000.00">
