@@ -18,9 +18,9 @@
         <ignore-route-errors value="true"/>
     </processing>
 
-    <output>
-        <battery-output value="battery.xml"/>
-        <chargingstations-output value="chargingstations.xml"/>
-    </output>
+<!--    <output>-->
+<!--        <battery-output value="battery.xml"/>-->
+<!--        <chargingstations-output value="chargingstations.xml"/>-->
+<!--    </output>-->
 
 </configuration>
