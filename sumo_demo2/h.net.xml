@@ -68,7 +68,7 @@
     </junction>
     <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="107.18,11.19 107.19,14.39"/>  # 这个是E1的终点
     <junction id="J3" type="priority" x="45.84" y="79.55" incLanes="-E4_0 -E4_1 -E4_2 E2_0 -E3_0" intLanes=":J3_0_0 :J3_1_0 :J3_1_1 :J3_1_2 :J3_4_0 :J3_5_0 :J3_5_1" shape="52.32,89.44 53.16,70.26 51.00,69.73 50.25,69.15 49.72,68.37 49.42,67.38 49.34,66.18 46.14,66.11 45.96,69.24 45.58,71.80 44.99,73.79 44.20,75.21 43.20,76.07 42.00,76.35 42.00,82.75 44.47,83.23 46.04,84.43 47.16,86.00 48.28,87.59 49.85,88.85">
-        <request index="0" response="0000000" foes="0010000" cont="0"/>
+        <request index="0" response="0000000" foes="0010000" cont="0"/>                           # 这个就是E2,E3和E4的交点
         <request index="1" response="1100000" foes="1100000" cont="0"/>
         <request index="2" response="1100000" foes="1100000" cont="0"/>
         <request index="3" response="1100000" foes="1100000" cont="0"/>
