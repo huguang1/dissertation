@@ -1,0 +1,10 @@
+<nodes> <!-- 开始标签 -->
+
+  <node id="0" x="0.0" y="0.0" type="traffic_light"/> <!-- 定义节点0，类型为信控交叉口 "0" -->
+
+  <node id="1" x="500.0" y="0.0" type="priority"/> <!-- 定义东方向边缘节点 "1" -->
+  <node id="2" x="-500.0" y="0.0" type="priority"/> <!--西节点 "2" -->
+  <node id="3" x="0.0" y="-500.0" type="priority"/> <!-- 南节点 "3" -->
+  <node id="4" x="0.0" y="+500.0" type="priority"/> <!-- 北节点 "4" -->
+
+</nodes> <!-- 结束标签-->

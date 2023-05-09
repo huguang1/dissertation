@@ -11,7 +11,7 @@ def run():
     sumoProcess = subprocess.Popen([sumoBinary, "-c", "simple.sumocfg"], stdout=sys.stdout, stderr=sys.stderr)
 
     # connect to sumo using traci
-    traci.init()
+    traci.init(host="localhost", port=8813)
     step = 0
     while step < 3600:
         traci.simulationStep()
