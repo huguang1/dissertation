@@ -7,7 +7,7 @@
     <edge id=":J1_0" function="internal">
         <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,12.99 54.46,13.00"/>
     </edge>
-    <edge id=":J1_1" function="internal">
+    <edge id=":J1_1" function="internal">           # 这个是转弯的的路，连接E0-E2
         <lane id=":J1_1_0" index="0" speed="6.50" length="9.06" shape="43.26,12.99 45.72,13.36 47.46,14.44 48.48,16.20 48.78,18.66"/>
     </edge>
     <edge id=":J3_0" function="internal">
