@@ -61,9 +61,9 @@
         <lane id="E4_2" index="2" speed="13.89" length="1000.00" shape="52.81,78.25 111.31,80.80"/>
     </edge>
 
-    <junction id="J0" type="dead_end" x="-38.47" y="13.32" incLanes="" intLanes="" shape="-38.47,13.32 -38.42,10.12"/>      # 这个应该就是E0的起点
+    <junction id="J0" type="dead_end" x="-38.47" y="13.32" incLanes="" intLanes="" shape="-38.47,13.32 -38.42,10.12"/>      # 这个就是E0的起点
     <junction id="J1" type="priority" x="47.27" y="14.63" incLanes="E0_0" intLanes=":J1_0_0 :J1_1_0" shape="54.47,14.60 54.46,11.40 43.29,11.37 43.24,14.57 45.47,15.05 46.24,15.61 46.78,16.40 47.10,17.41 47.18,18.63 50.38,18.70 50.88,16.43 51.45,15.63 52.24,15.06 53.25,14.72">
-        <request index="0" response="00" foes="00" cont="0"/>
+        <request index="0" response="00" foes="00" cont="0"/>                                     # 这个就是E0,E1和E2的交点
         <request index="1" response="00" foes="00" cont="0"/>
     </junction>
     <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="107.18,11.19 107.19,14.39"/>  # 这个是E1的终点
