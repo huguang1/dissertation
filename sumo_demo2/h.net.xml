@@ -5,10 +5,10 @@
     <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>  # 目前为止还看不出这个有什么意义
 
     <edge id=":J1_0" function="internal">
-        <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,12.99 54.46,13.00"/>
+        <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,13 54.46,13.00"/>
     </edge>
     <edge id=":J1_1" function="internal">
-        <lane id=":J1_1_0" index="0" speed="6.50" length="9.06" shape="43.26,12.99 45.72,13.36 47.46,14.44 48.48,16.20 48.78,18.66"/>
+        <lane id=":J1_1_0" index="0" speed="6.50" length="9.06" shape="43.26,13 45.72,13.36 47.46,14.44 48.48,16.20 48.78,18.66"/>
     </edge>
     <edge id=":J3_0" function="internal">
         <lane id=":J3_0_0" index="0" speed="13.89" length="12.80" shape="52.39,87.84 48.87,86.68 46.75,84.40 44.86,82.16 42.00,81.15"/>
@@ -43,7 +43,7 @@
         <lane id="-E4_2" index="2" speed="13.89" length="58.55" shape="111.17,84.00 52.67,81.45"/>
     </edge>
     <edge id="E0" from="J0" to="J1" priority="-1" length="2000.00">   # 这个就是最下面的那个路径
-        <lane id="E0_0" index="0" speed="13.89" length="2000.00" shape="-38.45,12.99 43.26,12.99"/>
+        <lane id="E0_0" index="0" speed="13.89" length="2000.00" shape="-40,13 40,13"/>
     </edge>
     <edge id="E1" from="J1" to="J2" priority="-1">
         <lane id="E1_0" index="0" speed="13.89" length="52.72" shape="54.46,13.00 107.18,12.79"/>
