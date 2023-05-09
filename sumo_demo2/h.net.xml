@@ -37,7 +37,7 @@
     <edge id="-E3" from="J4" to="J3" priority="-1">
         <lane id="-E3_0" index="0" speed="13.89" length="82.13" shape="-40.13,77.95 42.00,77.95"/>
     </edge>
-    <edge id="-E4" from="J5" to="J3" priority="-1">  # E4的反向道路
+    <edge id="-E4" from="J5" to="J3" priority="-1">               # E4的反向道路
         <lane id="-E4_0" index="0" speed="13.89" length="1000.00" shape="110.89,90.39 52.39,87.84"/>
         <lane id="-E4_1" index="1" speed="13.89" length="1000.00" shape="111.03,87.20 52.53,84.65"/>
         <lane id="-E4_2" index="2" speed="13.89" length="1000.00" shape="111.17,84.00 52.67,81.45"/>
