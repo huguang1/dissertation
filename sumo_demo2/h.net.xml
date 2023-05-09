@@ -54,7 +54,7 @@
     <edge id="E3" from="J3" to="J4" priority="-1" length="1000.00">    # 这个就是最左边的那条路
         <lane id="E3_0" index="0" speed="13.89" length="1000.00" shape="42.00,81.15 -40.13,81.15"/>
     </edge>
-    <edge id="E4" from="J3" to="J5" priority="-1" length="1000.00">
+    <edge id="E4" from="J3" to="J5" priority="-1" length="1000.00">   # 这个就是三条路
         <lane id="E4_0" index="0" speed="13.89" length="1000.00" shape="53.09,71.86 111.59,74.41"/>
         <lane id="E4_1" index="1" speed="13.89" length="1000.00" shape="52.95,75.06 111.45,77.60"/>
         <lane id="E4_2" index="2" speed="13.89" length="1000.00" shape="52.81,78.25 111.31,80.80"/>
