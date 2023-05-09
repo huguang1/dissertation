@@ -2,7 +2,7 @@
 
 <net version="1.9" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
 
-    <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+    <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>  # 目前为止还看不出这个有什么意义
 
     <edge id=":J1_0" function="internal">
         <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,12.97 54.46,13.00"/>
