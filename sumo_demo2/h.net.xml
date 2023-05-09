@@ -21,7 +21,7 @@
     <edge id=":J3_4" function="internal">
         <lane id=":J3_4_0" index="0" speed="8.85" length="17.29" shape="47.74,66.14 47.25,72.71 46.14,77.40 44.38,80.21 42.00,81.15"/>
     </edge>
-    <edge id=":J3_5" function="internal">
+    <edge id=":J3_5" function="internal">           # 这个是转弯的路，连接E3-E4
         <lane id=":J3_5_0" index="0" speed="13.89" length="11.14" shape="42.00,77.95 45.02,77.46 47.23,76.41 49.55,75.40 52.95,75.06"/>
         <lane id=":J3_5_1" index="1" speed="13.89" length="11.14" shape="42.00,77.95 52.81,78.25"/>
     </edge>
