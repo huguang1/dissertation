@@ -1,7 +1,0 @@
-<net version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
-    <location netOffset="0,0" convBoundary="0.00,0.00,100.00,100.00" origBoundary="-2000.00,-2000.00,2000.00,2000.00" projParameter="+proj=utm +zone=32U +ellps=WGS84 +datum=WGS84 +units=m +no_defs ">
-    </location>
-    <node id="node1" x="0" y="0"/>
-    <node id="node2" x="100" y="0"/>
-    <edge id="edge1" from="node1" to="node2" type="a"/>
-</net>

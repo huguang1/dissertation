@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<routes>
-    <route id="route1" edges="edge1"/>
-    <vehicle id="vehicle1" route="route1" depart="0" departLane="best" departSpeed="max"/>
-</routes>
