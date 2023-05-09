@@ -42,7 +42,7 @@
         <lane id="-E4_1" index="1" speed="13.89" length="58.55" shape="111.03,87.20 52.53,84.65"/>
         <lane id="-E4_2" index="2" speed="13.89" length="58.55" shape="111.17,84.00 52.67,81.45"/>
     </edge>
-    <edge id="E0" from="J0" to="J1" priority="-1" length="2000.00">
+    <edge id="E0" from="J0" to="J1" priority="-1" length="2000.00">   # 这个就是最下面的那个路径
         <lane id="E0_0" index="0" speed="13.89" length="2000.00" shape="-38.45,11.72 43.26,12.97"/>
     </edge>
     <edge id="E1" from="J1" to="J2" priority="-1">
