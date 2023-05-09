@@ -21,14 +21,14 @@
     <edge id=":J3_4" function="internal">         # 这个是转弯的路，连接E2-E3
         <lane id=":J3_4_0" index="0" speed="8.85" length="17.29" shape="47.74,66.14 47.25,72.71 46.14,77.40 44.38,80.21 42.00,81.15"/>
     </edge>
-    <edge id=":J3_5" function="internal">           # 这个是转弯的路，连接E3-E4
+    <edge id=":J3_5" function="internal">           # 这个是转弯的路，连接-E3-E4
         <lane id=":J3_5_0" index="0" speed="13.89" length="11.14" shape="42.00,77.95 45.02,77.46 47.23,76.41 49.55,75.40 52.95,75.06"/>
         <lane id=":J3_5_1" index="1" speed="13.89" length="11.14" shape="42.00,77.95 52.81,78.25"/>
     </edge>
-    <edge id=":J4_0" function="internal">          # 这个是转弯的路，连接-E3-E3
+    <edge id=":J4_0" function="internal">          # 这个是转弯的路，连接E3--E3
         <lane id=":J4_0_0" index="0" speed="3.65" length="4.67" shape="-40.13,81.15 -41.33,80.35 -41.73,79.55 -41.33,78.75 -40.13,77.95"/>
     </edge>
-    <edge id=":J5_0" function="internal">                # 最右边的转向道路
+    <edge id=":J5_0" function="internal">                # 最右边的转向道路E4--E4
         <lane id=":J5_0_0" index="0" speed="6.33" length="14.02" shape="111.45,77.60 116.11,81.01 117.56,84.28 115.83,87.40 110.89,90.39"/>
         <lane id=":J5_0_1" index="1" speed="5.58" length="14.02" shape="111.45,77.60 114.94,80.16 116.04,82.61 114.73,84.95 111.03,87.20"/>
         <lane id=":J5_0_2" index="2" speed="4.72" length="14.02" shape="111.45,77.60 113.78,79.31 114.51,80.94 113.64,82.50 111.17,84.00"/>
