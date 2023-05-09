@@ -1,4 +1,5 @@
 # coding=utf-8
+import time
 import traci
 
 sumoCmd = ["sumo-gui", "-c", "simple.sumocfg"]

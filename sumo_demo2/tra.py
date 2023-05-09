@@ -1,4 +1,6 @@
 # coding=utf-8
+import time
+
 import traci
 
 sumoCmd = ["sumo-gui", "-c", "con.sumocfg"]
@@ -39,5 +41,6 @@ while traci.simulation.getMinExpectedNumber() > 0:
             else:
                 print(traci.vehicle.getParameter(vehid, "device.battery.actualBatteryCapacity"))
                 traci.vehicle.setChargingStationStop(vehid, "char1", duration=5, flags=0)
+    time.sleep(0.01)
 
 traci.close()
