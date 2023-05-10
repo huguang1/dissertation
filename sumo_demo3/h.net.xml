@@ -29,10 +29,10 @@
         <lane id=":J5_0_0" index="0" speed="6.33" length="14.02" shape="111.45,77.60 116.11,81.01 117.56,84.28 115.83,87.40 110.89,90.39"/>
     </edge>
     <edge id="-E3" from="J4" to="J3" priority="-1">              # E3的反向道路
-        <lane id="-E3_0" index="0" speed="13.89" length="1000.00" shape="-40.13,77.95 42.00,77.95"/>
+        <lane id="-E3_0" index="0" speed="13.89" length="100.00" shape="-40.13,77.95 42.00,77.95"/>
     </edge>
     <edge id="-E4" from="J5" to="J3" priority="-1">               # E4的反向道路
-        <lane id="-E4_0" index="0" speed="13.89" length="1000.00" shape="110.89,90.39 52.39,87.84"/>
+        <lane id="-E4_0" index="0" speed="13.89" length="100.00" shape="110.89,90.39 52.39,87.84"/>
     </edge>
     <edge id="E0" from="J0" to="J1" priority="-1" length="200.00">   # 这个就是最下面的那个左边那条路, 道路中同时将junction的点也注明了
         <lane id="E0_0" index="0" speed="13.89" length="200.00" shape="-39.99,12.99 43.26,12.99"/>
