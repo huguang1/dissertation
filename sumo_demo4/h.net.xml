@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <net version="1.9" junctionCornerDetail="5" limitTurnSpeed="5.50">
-
-    <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>  # 目前为止还看不出这个有什么意义
+    <location netOffset="0.00,0.00" convBoundary="-40.13,13.32,111.24,82.40" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
 
     <edge id=":J1_0" function="internal">           # 这个也是转弯的路，连接E0-E1
         <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="43.26,12.99 54.46,12.99"/>
