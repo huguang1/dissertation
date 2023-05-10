@@ -18,15 +18,12 @@
         <param key="emissionClass" value="Energy"/>
     </vType>
     <trip id="t_0" type="ElectricBus" depart="0.00" from="E0" to="E3">
-        <param key="actualBatteryCapacity" value="500"/>
     </trip>
 
     <vehicle id="v0" depart="0" type="ElectricBus">
         <route edges="E0 E2 E3"/>
-        <param key="actualBatteryCapacity" value="2000"/>
     </vehicle>
     <vehicle id="v1" depart="0" type="ElectricBus">
         <route edges="E0 E2 E4"/>
-        <param key="actualBatteryCapacity" value="2000"/>
     </vehicle>
 </routes>

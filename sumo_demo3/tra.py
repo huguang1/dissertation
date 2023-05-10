@@ -14,6 +14,6 @@ cache = {}
 step = 0
 while traci.simulation.getMinExpectedNumber() > 0:
     traci.simulationStep()
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 traci.close()
