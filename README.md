@@ -11,7 +11,17 @@
 8. select Area and Generate Scenario
 
 ## python create net and route
+1.首先是设置道路的形状
+2.接着扩充道路的线路条数
+3.添加反向道路
+4.修改特定道路的连接
+5.创建红绿灯
 
+
+6.设置车辆的行驶太过于复杂，有几种方法可以尝试。
+其中一种就是在这个目录下 cd /Users/guanghu/sumo/tools
+使用这个命令就可以直接生成需要的文件了
+python randomTrips.py -n /Users/guanghu/Desktop/hu.net.xml -r /Users/guanghu/Desktop/hu.rou.xml
 
 
 
