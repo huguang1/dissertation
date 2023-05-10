@@ -27,7 +27,6 @@ while traci.simulation.getMinExpectedNumber() > 0:
             traci.vehicle.changeTarget(vehid, "E4")
             wait.append(vehid)
         if (vehid in wait):
-
             wait.remove(vehid)
             charge.append(vehid)
         if (vehid in charge):
