@@ -7,18 +7,6 @@
     <edge id="E0" from="J0" to="J1" priority="-1" length="200.00">
         <lane id="E0_0" index="0" speed="13.89" length="200.00" shape="0,50 50,50"/>
     </edge>
-    <edge id="E1" from="J1" to="J2" priority="-1">
-        <lane id="E1_0" index="0" speed="13.89" length="52.72" shape="80,50 120,50"/>
-    </edge>
-    <edge id=":J1_0" function="internal">
-        <lane id=":J1_0_0" index="0" speed="13.89" length="11.20" shape="50,50 80,50"/>
-    </edge>
-
     <junction id="J0" type="dead_end" x="-38.47" y="13.32" incLanes="" intLanes="" shape="-30,50 -5,50"/>
-    <junction id="J1" type="priority" x="47.27" y="14.63" incLanes="E0_0" intLanes=":J1_0_0" shape="50,50 80,50">
-        <request index="0" response="0" foes="0" cont="0"/>
-    </junction>
-    <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="125,50 140,50"/>
-    <connection from="E0" to="E1" fromLane="0" toLane="0" via=":J1_0_0" dir="s" state="M"/>
-    <connection from=":J1_0" to="E1" fromLane="0" toLane="0" dir="s" state="M"/>
+    <junction id="J1" type="dead_end" x="107.19" y="14.39" incLanes="" intLanes="" shape="125,50 140,50"/>
 </net>
