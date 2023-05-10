@@ -17,42 +17,42 @@
         <param key="stoppingTreshold" value="0.1"/>
         <param key="emissionClass" value="Energy"/>
     </vType>
-<!--    <trip id="t_0" type="ElectricBus" depart="0.00" from="E0" to="E3">-->
-<!--        <param key="actualBatteryCapacity" value="500"/>-->
-<!--    </trip>-->
+    <trip id="t_0" type="ElectricBus" depart="0.00" from="E0" to="E3">
+        <param key="actualBatteryCapacity" value="500"/>
+    </trip>
 
     <vehicle id="v0" depart="0" type="ElectricBus">
         <route edges="E0 E2 E3"/>
         <param key="actualBatteryCapacity" value="2000"/>
     </vehicle>
-<!--    <vehicle id="v1" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v2" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v3" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v4" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v5" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v6" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
-<!--    <vehicle id="v7" depart="0" type="ElectricBus">-->
-<!--        <route edges="E0 E2 E3"/>-->
-<!--        <param key="actualBatteryCapacity" value="2000"/>-->
-<!--    </vehicle>-->
+    <vehicle id="v1" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v2" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v3" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v4" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v5" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v6" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
+    <vehicle id="v7" depart="0" type="ElectricBus">
+        <route edges="E0 E2 E3"/>
+        <param key="actualBatteryCapacity" value="2000"/>
+    </vehicle>
 <!--    <vehicle id="v8" depart="0" type="ElectricBus">-->
 <!--        <route edges="E0 E2 E3"/>-->
 <!--        <param key="actualBatteryCapacity" value="2000"/>-->
