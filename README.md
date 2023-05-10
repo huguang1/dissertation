@@ -5,9 +5,10 @@
 2. cd $SUMO_HOME 
 3. cd bin
 4. ./sumo-gui
-5. cd sumo/tools
-6. python osmWebWizard.py
-7. select Area and Generate Scenario
+5. ./netedit    # 这个命令可以用来新建路网
+6. cd sumo/tools
+7. python osmWebWizard.py
+8. select Area and Generate Scenario
 
 ## python create net and route
 
