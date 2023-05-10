@@ -3,13 +3,6 @@
 <routes>
     <vType id="ElectricBus" accel="1.0" decel="1.0" length="60" maxSpeed="10.0" sigma="0.0" minGap="2.5" color="1,1,1">
     </vType>
-    <trip id="t_0" type="ElectricBus" depart="0.00" from="E0" to="E1">
-    </trip>
-
-    <vehicle id="v0" depart="0" type="ElectricBus">
-        <route edges="E0 E1"/>
-    </vehicle>
-    <vehicle id="v1" depart="0" type="ElectricBus">
-        <route edges="E0 E1"/>
-    </vehicle>
+<!--    <trip id="E0" type="ElectricBus" depart="0.00" from="E0" to="E0">-->
+<!--    </trip>-->
 </routes>
