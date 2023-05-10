@@ -6,7 +6,6 @@
     <input>
         <net-file value="h.net.xml"/>
         <route-files value="vehicle.rou.xml"/>
-        <additional-files value="char.add.xml"/>
     </input>
 
     <time>
