@@ -19,7 +19,6 @@ while traci.simulation.getMinExpectedNumber() > 0:
     for i in range(len(vehicles)):
         vehid = vehicles[i]
         rembat = float(traci.vehicle.getParameter(vehid, "device.battery.actualBatteryCapacity"))
-        print(rembat)
         if (rembat < 600 and (vehid not in wait) and (vehid not in charge)):
             target = traci.vehicle.getRoute(vehid)
             target = target[len(target) - 1]
