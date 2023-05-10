@@ -25,7 +25,7 @@
         <request index="1" response="00" foes="00" cont="0"/>
     </junction>
     <junction id="J2" type="dead_end" x="107.19" y="14.39" incLanes="E1_0" intLanes="" shape="107.18,11.19 107.19,14.39"/>  # 这个是E1的终点
-    <junction id="J3" type="priority" x="45.84" y="79.55" incLanes="E2_0" intLanes="" shape="52.32,89.44 53.16,70.26">
+    <junction id="J3" type="dead_end" x="45.84" y="79.55" incLanes="E2_0" intLanes="" shape="52.32,89.44 53.16,70.26">  # 这个是E2的终点
     </junction>
     <connection from="E0" to="E1" fromLane="0" toLane="0" via=":J1_0_0" dir="s" state="M"/>
     <connection from="E0" to="E2" fromLane="0" toLane="0" via=":J1_1_0" dir="l" state="M"/>
