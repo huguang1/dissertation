@@ -8,8 +8,8 @@ import numpy as np
 # 定义迷宫地图及参数
 aa = time.time()
 size_list = [[21, 20], [41, 10], [81, 5]]
-size = size_list[2][0]
-width = size_list[2][1]
+size = size_list[0][0]
+width = size_list[0][1]
 MAZE, ENTRANCE, EXIT = generate_maze(size, size)
 
 maze = np.array(MAZE)

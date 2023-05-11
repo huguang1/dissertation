@@ -6,8 +6,8 @@ from collections import deque
 import numpy as np
 aa = time.time()
 size_list = [[21, 20], [41, 10], [81, 5]]
-size = size_list[2][0]
-width = size_list[2][1]
+size = size_list[0][0]
+width = size_list[0][1]
 MAZE, ENTRANCE, EXIT = generate_maze(size, size)
 en_y, en_x = ENTRANCE
 ex_y, ex_x = EXIT
