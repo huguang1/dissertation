@@ -6,10 +6,10 @@ from collections import deque
 import numpy as np
 
 # 定义迷宫地图及参数
-
+aa = time.time()
 size_list = [[21, 20], [41, 10], [81, 5]]
-size = size_list[0][0]
-width = size_list[0][1]
+size = size_list[2][0]
+width = size_list[2][1]
 MAZE, ENTRANCE, EXIT = generate_maze(size, size)
 
 maze = np.array(MAZE)
@@ -87,8 +87,8 @@ def solve_maze_with_queue(x1, y1, x2, y2):
     return False
 
 
-a = time.time()
+
 ex_y, ex_x = EXIT
 solve_maze_with_queue(en_x, en_y, ex_x, ex_y)
-print(time.time()-a)
+print(time.time()-aa)
 plt.show()

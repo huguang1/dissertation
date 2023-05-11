@@ -1,12 +1,13 @@
+import time
+
 from maze_generator import generate_maze
 import matplotlib.pyplot as plt
 from collections import deque
 import numpy as np
-
-
+aa = time.time()
 size_list = [[21, 20], [41, 10], [81, 5]]
-size = size_list[0][0]
-width = size_list[0][1]
+size = size_list[2][0]
+width = size_list[2][1]
 MAZE, ENTRANCE, EXIT = generate_maze(size, size)
 en_y, en_x = ENTRANCE
 ex_y, ex_x = EXIT
@@ -21,11 +22,10 @@ n_states = size ** 2
 n_actions = 4
 P = np.zeros((n_states, n_actions, n_states)).astype("float32")
 for s in range(n_states):
-
-    P[s, 0, s-size if s-size >= 0 else s] = 1.0  # Up
-    P[s, 1, s+size if s+size < n_states else s] = 1.0  # Down
-    P[s, 2, s-1 if s % size != 0 else s] = 1.0  # Left
-    P[s, 3, s+1 if (s+1) % size != 0 else s] = 1.0  # Right
+    P[s, 0, s - size if s - size >= 0 else s] = 1.0  # Up
+    P[s, 1, s + size if s + size < n_states else s] = 1.0  # Down
+    P[s, 2, s - 1 if s % size != 0 else s] = 1.0  # Left
+    P[s, 3, s + 1 if (s + 1) % size != 0 else s] = 1.0  # Right
 
 # Initialization
 policy = np.zeros(n_states).astype("int")
@@ -67,7 +67,7 @@ for s in range(n_states):
         print(actions[2], end=' ')
     elif policy[s] == 3:
         print(actions[3], end=' ')
-    if (s+1) % size == 0:
+    if (s + 1) % size == 0:
         print("")
 
 fig, ax = plt.subplots(figsize=(10, 10))
@@ -75,7 +75,6 @@ fig, ax = plt.subplots(figsize=(10, 10))
 plt.imshow(MAZE, cmap='binary')
 plt.title('MDP policy iteration ')
 policy = policy.reshape((size, size))
-
 
 dirs = [
     lambda x, y: (x - 1, y),  # 上
@@ -102,13 +101,9 @@ def solve_maze_with_queue(x1, y1, x2, y2):
     return False
 
 
-solve_maze_with_queue(en_x, en_y, ex_x, ex_y)
 
+solve_maze_with_queue(en_x, en_y, ex_x, ex_y)
+print(time.time() - aa)
 
 # print(policy)
 plt.show()
-
-
-
-
-
