@@ -56,6 +56,7 @@ while not done:
     if policy_stable:
         done = True
 
+"""以下都是对算法进行总结的"""
 # Display the results
 actions = ['U', 'D', 'L', 'R']
 for s in range(n_states):
@@ -97,9 +98,7 @@ def solve_maze_with_queue(x1, y1, x2, y2):
         next_x, next_y = dirs[policy[cur_node[0]][cur_node[1]]](cur_node[0], cur_node[1])
         q.append((next_x, next_y, len(path) - 1))
         ax.plot(next_y, next_x, 'ro', markersize=width)
-        # plt.pause(0.0001)
     return False
-
 
 
 solve_maze_with_queue(en_x, en_y, ex_x, ex_y)
