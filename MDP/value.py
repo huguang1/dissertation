@@ -87,7 +87,6 @@ def solve_maze_with_queue(x1, y1, x2, y2):
     return False
 
 
-
 ex_y, ex_x = EXIT
 solve_maze_with_queue(en_x, en_y, ex_x, ex_y)
 print(time.time()-aa)
