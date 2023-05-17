@@ -15,12 +15,15 @@ rewards = np.array(MAZE)
 rewards *= -10
 rewards[ex_x][ex_y] = 1
 rewards = np.array(rewards).astype("float32")
+reward = rewards
 rewards = rewards.ravel()
 
 gamma = 0.9
 n_states = size ** 2
 n_actions = 4
-P = np.zeros((n_states, n_actions, n_states)).astype("float32")
+
+"""P主要就是某个点的三个动作"""
+P = np.zeros((n_states, n_actions, n_states)).astype("float32")  # 属于动作策略，这个是永远也不会变化的
 for s in range(n_states):
     P[s, 0, s - size if s - size >= 0 else s] = 1.0  # Up
     P[s, 1, s + size if s + size < n_states else s] = 1.0  # Down
@@ -28,20 +31,14 @@ for s in range(n_states):
     P[s, 3, s + 1 if (s + 1) % size != 0 else s] = 1.0  # Right
 
 # Initialization
-policy = np.zeros(n_states).astype("int")
+policy = np.zeros(n_states).astype("int")  # 最开始所有的动作都是向上的
 V = np.zeros(n_states).astype("float32")
 done = False
 
 while not done:
     # Policy Evaluation
-    while True:
-        delta = 0
-        for s in range(n_states):
-            v = V[s]
-            V[s] = np.sum(P[s, policy[s]] * (rewards + gamma * V))
-            delta = max(delta, np.abs(v - V[s]))
-        if delta < 1e-3:
-            break
+    for s in range(n_states):
+        V[s] = np.sum(P[s, policy[s]] * (rewards + gamma * V))
 
     # Policy Improvement
     policy_stable = True
@@ -50,7 +47,7 @@ while not done:
         q_values = np.zeros(n_actions)
         for a in range(n_actions):
             q_values[a] = np.sum(P[s, a] * (rewards + gamma * V))
-        policy[s] = np.argmax(q_values)
+        policy[s] = np.argmax(q_values)   # 这个才是真正最后关心的具体的执行动作
         if old_action != policy[s]:
             policy_stable = False
     if policy_stable:
