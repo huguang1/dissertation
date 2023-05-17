@@ -32,12 +32,18 @@ for s in range(n_states):
 
 # Initialization
 policy = np.zeros(n_states).astype("int")  # 最开始所有的动作都是向上的
-V = np.zeros(n_states).astype("float32")
+V = np.zeros(n_states).astype("float32")   # 对奖励的统计
 done = False
 
 while not done:
     # Policy Evaluation
     for s in range(n_states):
+        v = V[s]
+        a = P[s, policy[s]]  # 代表的是某个动作的位置
+        b = rewards
+        c = gamma * V  # 对这个V进行打折
+        d = P[s, policy[s]] * (rewards + gamma * V)   # 对奖励进行计算
+        e = np.sum(P[s, policy[s]] * (rewards + gamma * V))   # 计算所有的奖励和
         V[s] = np.sum(P[s, policy[s]] * (rewards + gamma * V))
 
     # Policy Improvement
@@ -47,7 +53,7 @@ while not done:
         q_values = np.zeros(n_actions)
         for a in range(n_actions):
             q_values[a] = np.sum(P[s, a] * (rewards + gamma * V))
-        policy[s] = np.argmax(q_values)   # 这个才是真正最后关心的具体的执行动作
+        policy[s] = np.argmax(q_values)   # 根据每个点的reward来计算这个点最好的动作
         if old_action != policy[s]:
             policy_stable = False
     if policy_stable:
