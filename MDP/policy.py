@@ -38,12 +38,12 @@ done = False
 while not done:
     # Policy Evaluation
     for s in range(n_states):
-        v = V[s]
-        a = P[s, policy[s]]  # 代表的是某个动作的位置
-        b = rewards
-        c = gamma * V  # 对这个V进行打折
-        d = P[s, policy[s]] * (rewards + gamma * V)   # 对奖励进行计算
-        e = np.sum(P[s, policy[s]] * (rewards + gamma * V))   # 计算所有的奖励和
+        # v = V[s]
+        # a = P[s, policy[s]]  # 代表的是某个动作的位置
+        # b = rewards
+        # c = gamma * V  # 对这个V进行打折
+        # d = P[s, policy[s]] * (rewards + gamma * V)   # 对奖励进行计算
+        # e = np.sum(P[s, policy[s]] * (rewards + gamma * V))   # 计算所有的奖励和
         V[s] = np.sum(P[s, policy[s]] * (rewards + gamma * V))
 
     # Policy Improvement
