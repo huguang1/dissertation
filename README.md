@@ -136,3 +136,14 @@ Do Monte Carlo Tree Search(MCTS) using the policy and value networks
 2. expansion: imaginary action, the opponent makes an action, 
 3. evaluation: evaluate the state-value and get score v, receive reword
 4. backup: update action-value
+
+
+
+
+1: Read the paper and build the basic environment. 11/15/2022 
+
+2: Familiar with SUMO software, simple simulation. 12/15/2022 
+
+3: Basically, master the operating principle of SUMO, and try to use python code to control the operation of cars and traffic lights in SUMO according to online tutorials. 1/15/2022 
+
+4: Learned the reinforcement algorithm, and at the same time, according to the open source information on the internet, used the reinforcement learning algorithm to control a Cartpole game in the gym module. 
