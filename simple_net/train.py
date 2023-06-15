@@ -137,7 +137,7 @@ def random_run(sumoBinary, sumocfg, edgelists):
 if __name__ == "__main__":
     net = "simple.net.xml"
     det = "simple.det.xml"
-    sumocfg = "rl2.sumocfg"
+    sumocfg = "simple.sumocfg"
     veh = "veh0"
     options = get_options()
     if options.nogui:
