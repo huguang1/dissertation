@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2023-06-15 09:23:58 by Eclipse SUMO netedit Version v1_14_1+2245-8aa96d847b0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
+
+    <output>
+        <output-file value="/Users/guanghu/Desktop/simple.net.xml"/>
+    </output>
+
+    <processing>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+</configuration>
+-->
+
+<net version="1.9" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="17.33,-364.62,199.39,76.23" origBoundary="10000000000.00,10000000000.00,-10000000000.00,-10000000000.00" projParameter="!"/>
+
+    <edge id=":J2_0" function="internal">
+        <lane id=":J2_0_0" index="0" speed="3.92" length="2.24" shape="196.50,-153.02 196.80,-153.54 196.90,-154.05 196.78,-154.56 196.45,-155.06"/>
+    </edge>
+
+    <edge id="E0" from="J0" to="J1" priority="-1">
+        <lane id="E0_0" index="0" speed="13.89" length="427.79" shape="16.09,69.57 15.73,-358.22"/>
+    </edge>
+    <edge id="E1" from="J0" to="J2" priority="-1">
+        <lane id="E1_0" index="0" speed="13.89" length="285.18" shape="19.88,70.88 196.50,-153.02"/>
+    </edge>
+    <edge id="E3" from="J2" to="J1" priority="-1">
+        <lane id="E3_0" index="0" speed="13.89" length="270.47" shape="196.45,-155.06 19.52,-359.63"/>
+    </edge>
+
+    <junction id="J0" type="dead_end" x="17.70" y="76.23" incLanes="" intLanes="" shape="21.14,71.88 18.62,69.89 18.11,70.38 17.93,70.40 17.80,70.27 17.72,70.00 17.69,69.57 14.49,69.57 14.68,72.61 15.24,74.59 16.16,75.50 17.45,75.36 19.11,74.15"/>
+    <junction id="J1" type="dead_end" x="17.33" y="-364.62" incLanes="E0_0 E3_0" intLanes="" shape="14.13,-358.22 17.33,-358.22 17.44,-358.93 17.58,-359.06 17.77,-359.05 18.01,-358.89 18.31,-358.58 20.73,-360.68 18.71,-362.73 17.06,-363.80 15.78,-363.88 14.86,-362.98 14.31,-361.09"/>
+    <junction id="J2" type="priority" x="199.39" y="-154.11" incLanes="E1_0" intLanes=":J2_0_0" shape="197.66,-156.11 195.24,-154.01 197.75,-152.03 198.47,-153.41 198.55,-154.09 198.44,-154.77 198.15,-155.44">
+        <request index="0" response="0" foes="0" cont="0"/>
+    </junction>
+
+    <connection from="E1" to="E3" fromLane="0" toLane="0" via=":J2_0_0" dir="r" state="M"/>
+
+    <connection from=":J2_0" to="E3" fromLane="0" toLane="0" dir="r" state="M"/>
+
+</net>
