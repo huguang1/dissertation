@@ -98,37 +98,16 @@ def random_run(sumoBinary, sumocfg, edgelists):
     traci.start([sumoBinary, "-c", sumocfg, "--tripinfo-output", "tripinfo.xml"])  # start sumo server using cmd
 
     step = 0
-    traci.route.add("rou1", ["E8", "E9"])  # default route
-    traci.vehicle.add("veh0", "rou1")
+    traci.route.add("rou1", ["E0", "E1"])  # default route
+    traci.vehicle.add("veh1", "rou1")
     print('[ Veh0 Random Routes ]')
     traci.simulationStep()
-    beforelane = traci.vehicle.getLaneID("veh0")
-    beforeedge = traci.lane.getEdgeID(beforelane)
-    print(beforeedge, end=' -> ')  # start point
+    beforelane = traci.vehicle.getLaneID("veh1")
+    # beforeedge = traci.lane.getEdgeID(beforelane)
+    # print(beforeedge, end=' -> ')  # start point
 
     while traci.simulation.getMinExpectedNumber() > 0:
         traci.simulationStep()
-        try:
-            # get current edges
-            curlane = traci.vehicle.getLaneID(
-                "veh0")  # ** Error Point (2022/2/8) : Detector 지우고 edge변경시 routesetting하는 걸로 해결 가능 **
-            curedge = traci.lane.getEdgeID(curlane)
-            # curdet = curedge.replace('E','D') #골인 부분에서만 detector사용
-            if traci.inductionloop.getLastStepVehicleNumber("D4") > 0 or traci.inductionloop.getLastStepVehicleNumber(
-                    "-D0") > 0:  # 골인 detector
-                print("[ Veh0 Arrived ]")
-                traci.close()
-
-            if curedge in edgelists and curedge != beforeedge:
-                # if curdet in alldets and traci.inductionloop.getLastStepVehicleNumber(curdet)>0:
-                toedges = get_toedges(net, curedge)  # get possible toedges (= target for nextedge)
-                nextedge = random.choice(toedges)  # choose next edge randomly
-                print(curedge, end=' -> ')
-                traci.vehicle.changeTarget('veh0', nextedge)
-                beforeedge = curedge
-        except:
-            print('Simulation error occured. ')
-            break
         step += 1
     traci.close()
     sys.stdout.flush()
@@ -138,7 +117,7 @@ if __name__ == "__main__":
     net = "simple.net.xml"
     det = "simple.det.xml"
     sumocfg = "simple.sumocfg"
-    veh = "veh0"
+    # veh = "veh0"
     options = get_options()
     if options.nogui:
         sumoBinary = checkBinary('sumo')

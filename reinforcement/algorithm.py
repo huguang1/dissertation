@@ -140,25 +140,16 @@ def ValueIteration(m):
 
 if __name__ == '__main__':
     algrithm = "ValueIteration"
-    # MyMaze = maze(4, 4)
-    # MyMaze.CreateMaze(loadMaze="maze4x4.csv", theme=COLOR.light)
     MyMaze = maze(4, 4)
     MyMaze.CreateMaze(loadMaze="maze4.csv", theme=COLOR.light)
-    # MyMaze=maze(20,20)
-    # MyMaze.CreateMaze(loadMaze="maze20.csv",theme=COLOR.light)
-    # MyMaze=maze(30,30)·
-    # MyMaze.CreateMaze(loadMaze="maze30x30.csv",theme=COLOR.light)
     V, D, fwdPath, count = ValueIteration(MyMaze)
     print(V)
     print(D)
     print(count)
     a = agent(MyMaze, footprints=True, color=COLOR.red, shape='arrow', filled=False)
     textLabel(MyMaze, algrithm + ' Path Length', len(fwdPath) + 1)
-    # T = timeit(stmt='ValueIteration(MyMaze)', number=10, globals=globals())
-    # textLabel(MyMaze, 'Time', T)
     textLabel(MyMaze, "Calculation times", count)
     print(algrithm + ' Path Length', len(fwdPath) + 1)
-    # print(algrithm + ' Time', T)
     print("Calculation times", count)
     MyMaze.tracePath({a: fwdPath}, delay=100)
     MyMaze.run()

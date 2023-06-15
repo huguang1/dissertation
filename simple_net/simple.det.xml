@@ -1,5 +1,5 @@
 <additional>
+ <e1Detector id="D0" lane="E0_0" pos="-10" freq="30" file="cross.out" friendlyPos="x"/>
+ <e1Detector id="D1" lane="E1_0" pos="-10" freq="30" file="cross.out" friendlyPos="x"/>
  <e1Detector id="D2" lane="E2_0" pos="-10" freq="30" file="cross.out" friendlyPos="x"/>
- <e1Detector id="D8" lane="E8_0" pos="-10" freq="30" file="cross.out" friendlyPos="x"/>
- <e1Detector id="D9" lane="E9_0" pos="-10" freq="30" file="cross.out" friendlyPos="x"/>
 </additional>
