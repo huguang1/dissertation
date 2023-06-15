@@ -98,7 +98,7 @@ def random_run(sumoBinary, sumocfg, edgelists):
     traci.start([sumoBinary, "-c", sumocfg, "--tripinfo-output", "tripinfo.xml"])  # start sumo server using cmd
 
     step = 0
-    traci.route.add("rou1", ["E19", "E0"])  # default route
+    traci.route.add("rou1", ["E8", "E9"])  # default route
     traci.vehicle.add("veh0", "rou1")
     print('[ Veh0 Random Routes ]')
     traci.simulationStep()
