@@ -132,13 +132,8 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
 
         score = 0
         routes = []
-
-        state = env.reset()  # 58개
-
-        state = np.reshape(state, [1, state_size])  # for be 모델 input
-        # curlane = env.get_curlane(veh)
-        # curedge = env.get_curedge(curlane)
-        curedge = env.get_RoadID(veh)  # 0221수정: 위 2개 명령어 대신 get_RoadID로 통일시킴
+        env.reset()
+        curedge = env.get_RoadID(veh)
 
         routes.append(curedge)
         print('%s -> ' % curedge, end=' ')
@@ -151,39 +146,22 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
             while block:  # 막힌 도로를 고름 (막힌 도로 = '', not like 'E*' or '-E*')
                 if curedge == destination:
                     break
-                # curlane = env.get_curlane(veh)
-                # curedge = env.get_curedge(curlane)
-                curedge = env.get_RoadID(veh)  # 0221수정: 위 2개 명령어 대신 get_RoadID로 통일시킴
-                state = env.get_state(veh, curedge)
-                state = np.reshape(state, [1, state_size])  # for be 모델 input
-
-                action = agent.get_action(state)  # 현재 edge에서 가능한 (0,1,2) 중 선택
-
-                nextedge = env.get_nextedge(curedge, action)  # next edge 계산해서 env에 보냄.
-                # print('err2')
-                # print('nextedge: ',nextedge)
-                if nextedge != "": break
+                curedge = env.get_RoadID(veh)
+                # nextedge = env.get_nextedge(curedge)
+                nextedge = "E2"
+                if nextedge != "":
+                    break
 
             print('%s -> ' % nextedge, end=' ')
             routes.append(nextedge)
 
-            next_state = env.get_nextstate(veh, nextedge)
-            next_state = np.reshape(state, [1, state_size])  # for be 모델 input
             reward, done = env.step(curedge, nextedge)  # changeTarget to nextedge
             score += reward
-
-
-            agent.append_sample(state, action, reward, next_state, done)
-
-            if len(agent.memory) >= agent.train_start:
-                agent.train_model()
 
             if score < -1000:  # 이 기능 테스트 필요 0219 6pm
                 done = True
 
             if done:
-                # 각 에피소드마다 타깃 모델을 모델의 가중치로 업데이트
-                agent.update_target_model()
                 env.sumoclose()
 
                 score_avg = 0.9 * score_avg + 0.1 * score if score_avg != 0 else score

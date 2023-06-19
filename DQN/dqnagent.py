@@ -39,18 +39,6 @@ class dqnAgent():
     def update_target_model(self):
         self.target_model.set_weights(self.model.get_weights())
 
-      
-    def get_action(self, state): 
-        
-        if np.random.rand()<=self.epsilon:
-            action = random.randrange(self.action_size)
-        else:
-            qvalue = self.model(state)
-            action = np.argmax(qvalue[0])
-            
-        return action
-
-
     def append_sample(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
 

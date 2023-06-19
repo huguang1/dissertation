@@ -68,10 +68,6 @@ class dqnEnv():
             curlane = self.get_curlane(self.veh)
             self.sumo.simulationStep()
 
-        curedge = self.get_curedge(curlane)
-        state = self.get_state(self.veh,curedge)
-            
-        return state
 
     def get_curlane(self,veh):
         curlane = self.sumo.vehicle.getLaneID(veh)
@@ -91,26 +87,13 @@ class dqnEnv():
         return traci.vehicle.getRoadID(veh)
 
     def get_reward(self, curedge, nextedge):
-        reward = 0
-        #reward = traveling time of curedge
-        det = curedge.replace('E','D')
-        num_veh = self.get_numVeh(det)
-        if num_veh ==1: # 자기자신  #length/speedlimit if E7 or -E7 :10 else: 15
-            traveltime = self.dict_edgelengths[curedge] / self.dict_edgelimits[curedge]
-        else:
-            #print('err1 get_reward num_veh 확인용 : ',num_veh) 
-            traveltime = self.sumo.edge.getTraveltime(curedge) #(length/mean speed).
-       
+        traveltime = self.sumo.edge.getTraveltime(curedge)
         reward = -traveltime
         return reward
     
     def get_nextedge(self, curedge, action):
         nextedge = self.dict_connection[curedge][action]
         return nextedge
-
-    def get_numVeh(self, det):
-        num_veh = self.sumo.lanearea.getLastStepVehicleNumber(det)
-        return num_veh
     
     def get_edgelengths(self):
         dict_edgelengths = defaultdict(float)
@@ -130,40 +113,6 @@ class dqnEnv():
         dict_edgelimits['-E7'] = 10.0
         return dict_edgelimits
 
-    def get_state(self, veh, curedge): #총 64개 원소
-        state = []
-        
-        for edge in self.edgelists: #20개 edge별 차량수 
-            det = edge.replace("E","D")
-            state.append(self.get_numVeh(det)) 
-        
-        for edge in self.edgelists: #20개 edge별 평균 속도      
-            state.append(self.sumo.edge.getLastStepMeanSpeed(edge)) 
-        state.extend(self.list_edgelengths) #20개 edge length
-       
-        curlane = curedge+'_0' #curedge좌표
-        curCord= self.sumo.lane.getShape(curlane)[0]
-        state.extend(list(curCord))
-        
-        state.extend(list(self.destCord))#목적지 좌표
-        
-        return state
-
-    def get_nextstate(self, veh, nextedge):
-        next_state = []
-        for edge in self.edgelists: #20개 edge별 차량수 
-            det = edge.replace("E","D")
-            next_state.append(self.get_numVeh(det)) 
-            
-        for edge in self.edgelists: #20개 edge별 평균 속도
-            next_state.append(self.sumo.edge.getLastStepMeanSpeed) 
-        next_state.append(self.list_edgelengths) #20개 edge length
-        nextlane = nextedge+'_0' #nextedge좌표
-        nextCord= self.sumo.lane.getShape(nextlane)[0]
-        next_state.extend(list(nextCord))
-        next_state.extend(list(self.destCord))
-        return next_state
-
     def step(self, curedge, nextedge):
         
         beforeedge = curedge #비교해서 변하면 고를려고!
@@ -174,12 +123,9 @@ class dqnEnv():
         if done:
             return reward, done
         
-        self.sumo.vehicle.changeTarget(self.veh,nextedge) #차량 움직여!
+        # self.sumo.vehicle.changeTarget(self.veh, nextedge)
         
         while self.sumo.simulation.getMinExpectedNumber() > 0:
-            #curlane = self.get_curlane(self.veh)
-            
-            #curedge = self.get_curedge(curlane)
             curedge = self.get_RoadID(self.veh)
             done = self.get_done(curedge)
             if done:
