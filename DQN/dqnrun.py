@@ -207,13 +207,13 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
 
 
 if __name__ == "__main__":
-    net = "Net/dqnm.net.xml"
-    det = "Add/dqn.det.xml"
-    sumocfg = "dqn.sumocfg"
+    net = "Net/simple.net.xml"
+    det = "Add/simple.det.xml"
+    sumocfg = "simple.sumocfg"
     dirModel = 'Model/dqn'
     veh = "veh0"
-    destination = 'E9'
-    successend = ["E9"]
+    destination = 'E2'
+    successend = ["E2"]
     state_size = 64
     action_size = 3
 

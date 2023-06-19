@@ -1,3 +1,5 @@
 <additional>
-        <laneAreaDetector id="D0" lane=":J2_0_0" pos="0.0" length="2.16" freq ="1" file="dqn_detfile.out"/>
+        <laneAreaDetector id="D0" lane="E0_0" pos="0.0" length="52.87" freq ="1" file="dqn_detfile.out"/>
+        <laneAreaDetector id="D1" lane="E1_0" pos="0.0" length="52.23" freq ="1" file="dqn_detfile.out"/>
+        <laneAreaDetector id="D2" lane="E2_0" pos="0.0" length="81.86" freq ="1" file="dqn_detfile.out"/>
 </additional>
