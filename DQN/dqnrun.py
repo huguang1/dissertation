@@ -96,10 +96,13 @@ def generate_lanedetectionfile(net, det):
     edgesinfo = get_edgesinfo(net)
     alllanes = [edge + '_0' for edge in alledges]
     alldets = [edge.replace("E", "D") for edge in alledges]
-
+    edges = []
+    for i in edgesinfo:
+        if ':' in i["id"]:
+            edges.append(i)
     with open(det, "w") as f:
         print('<additional>', file=f)
-        for i, v in enumerate(edgesinfo):
+        for i, v in enumerate(edges):
             print(
                 '        <laneAreaDetector id="%s" lane="%s" pos="0.0" length="%s" freq ="%s" file="dqn_detfile.out"/>'
                 % (alldets[i], v['id'], v['length'], "1"), file=f)
