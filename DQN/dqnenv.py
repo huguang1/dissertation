@@ -1,10 +1,4 @@
-import time
-
-import numpy as np
-
 import traci
-
-from xml.etree.ElementTree import parse
 from collections import defaultdict
 
 class dqnEnv():
@@ -68,11 +62,7 @@ class dqnEnv():
         
         self.episode+=1 
         self.start_simulation()
-        
-        #vehicle  생성
-        #self.sumo.route.add("rou1", ["E0", "E2","E7","E9"]) #default route
-        #self.sumo.vehicle.add(self.veh, "rou1", typeID = "agent")
-        
+
         curlane = self.get_curlane(self.veh)
         while curlane=='':
             curlane = self.get_curlane(self.veh)
