@@ -115,24 +115,10 @@ def get_alldets(alledges):
     return alldets
 
 
-def plot_result(num_seed, episodes, scores, dirResult, num_episode):
-    pylab.plot(episodes, scores, 'b')
-    pylab.xlabel('episode')
-    pylab.ylabel('Mean Travel Time')
-    pylab.savefig(dirResult + str(num_episode) + '_' + str(num_seed) + '.png')
-
-
-def plot_trainedresult(num_seed, episodes, scores, dirResult, num_episode):
-    pylab.plot(episodes, scores, 'b')
-    pylab.xlabel('episode')
-    pylab.ylabel('Mean Travel Time')
-    pylab.savefig(dirResult + 'TrainedModel' + str(num_episode) + '_' + str(num_seed) + '.png')
-
-
 ##########@경로 탐색@##########
 # DQN routing : routing by applying DQN algorithm (using qlEnv & alAgent)
-def dqn_run(num_seed, trained, sumoBinary, plotResult, num_episode, net, trip, randomrou, add, dirResult, dirModel,
-            sumocfg, fcdoutput, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
+def dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+            sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
                  action_size=action_size)
@@ -225,21 +211,6 @@ def dqn_run(num_seed, trained, sumoBinary, plotResult, num_episode, net, trip, r
                 # 1) Reward
                 scores.append(-score_avg)  # Mean Travel Time
                 episodes.append(episode)
-                if plotResult: plot_result(num_seed, episodes, scores, dirResult, num_episode)
-
-                '''
-                #2) Travel Time(Time Step)
-                tree = elemTree.parse(fcdoutput)       
-                timestep = tree.find('./timestep[last()]') # 기능 알아두기 ! 맨 마지막 timestep받아올 수 있음 last()사용 
-                timestep = float(timestep.get('time'))
-                print('Total Time Step: ',timestep)
-                travel_times.append(float(timestep))
-
-                pylab.plot(episodes, travel_times, 'b')
-                pylab.xlabel('episode')
-                pylab.ylabel('Travel Time')
-                pylab.savefig('./RL/result/dqn_traveltimes'+str(num_episode)+'.png') 
-                '''
                 break
 
             if trained and done:  # trained 의미 : 이미 Trained된 모델 사용할 때-> append_sample, train_model, update_target_model 필요없음
@@ -252,13 +223,10 @@ def dqn_run(num_seed, trained, sumoBinary, plotResult, num_episode, net, trip, r
                 # 결과 Plot
                 scores.append(-score)
                 episodes.append(episode)
-                if plotResult: plot_trainedresult(num_seed, episodes, scores, dirResult, num_episode)
 
             curedge = nextedge
             cnt += 1
 
-        # parser = etree.XMLParser(recover=True)
-        # etree.fromstring(fcdoutput, parser=parser)
 
     end = time.time()
     print('Source Code Time: ', end - start)
@@ -276,9 +244,7 @@ if __name__ == "__main__":
     trip = "Rou/dqn.trip.xml"
     randomrou = "Rou/dqnrandom.rou.xml"
     sumocfg = "dqn.sumocfg"
-    dirResult = 'Result/dqn'
     dirModel = 'Model/dqn'
-    fcdoutput = 'Output/dqn.fcdoutput.xml'
 
     veh = "veh0"
 
@@ -294,15 +260,6 @@ if __name__ == "__main__":
         # sumoBinary = checkBinary('sumo')
         sumoBinary = checkBinary('sumo-gui')
 
-    if options.noplot:
-        plotResult = False
-    else:
-        plotResult = True
-
-    if options.noplot:
-        plotResult = False
-    else:
-        plotResult = True
 
     if options.num_episode:
         num_episode = int(options.num_episode)
@@ -317,8 +274,8 @@ if __name__ == "__main__":
 
     trained = False
     num_seed = random.randrange(1000)
-    while True:  # num_episode같아도 num_seed를 달리해서 겹치는 파일 생성 방지함.
+    while True:
         file = dirModel + str(num_episode) + '_' + str(num_seed) + '.h5'
         if not os.path.isfile(file): break
-    dqn_run(num_seed, trained, sumoBinary, plotResult, num_episode, net, trip, randomrou, add, dirResult, dirModel,
-            sumocfg, fcdoutput, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
+    dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+            sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
