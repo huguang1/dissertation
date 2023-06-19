@@ -98,7 +98,7 @@ def generate_lanedetectionfile(net, det):
     alldets = [edge.replace("E", "D") for edge in alledges]
     edges = []
     for i in edgesinfo:
-        if ':' in i["id"]:
+        if ':' not in i["id"]:
             edges.append(i)
     with open(det, "w") as f:
         print('<additional>', file=f)
