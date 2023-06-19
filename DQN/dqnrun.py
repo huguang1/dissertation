@@ -112,7 +112,7 @@ def get_alldets(alledges):
     return alldets
 
 
-def dqn_run(num_seed, sumoBinary, num_episode, net, randomrou, add, dirModel,
+def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
@@ -210,9 +210,7 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, randomrou, add, dirModel,
 
 if __name__ == "__main__":
     net = "Net/dqnm.net.xml"
-    add = "Add/dqn.add.xml"
     det = "Add/dqn.det.xml"
-    randomrou = "Rou/dqnrandom.rou.xml"
     sumocfg = "dqn.sumocfg"
     dirModel = 'Model/dqn'
     veh = "veh0"
@@ -242,5 +240,5 @@ if __name__ == "__main__":
     while True:
         file = dirModel + str(num_episode) + '_' + str(num_seed) + '.h5'
         if not os.path.isfile(file): break
-    dqn_run(num_seed, sumoBinary, num_episode, net, randomrou, add, dirModel,
+    dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
