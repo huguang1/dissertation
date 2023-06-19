@@ -232,8 +232,5 @@ if __name__ == "__main__":
     alldets = get_alldets(edgelists)
 
     num_seed = random.randrange(1000)
-    while True:
-        file = dirModel + str(num_episode) + '_' + str(num_seed) + '.h5'
-        if not os.path.isfile(file): break
     dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
