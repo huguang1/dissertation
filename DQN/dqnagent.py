@@ -51,10 +51,6 @@ class dqnAgent():
         return action
 
 
-
-    def save_weights(self):
-        self.model.save_weights(self.dirModel+str(self.num_episode)+'_'+str(self.num_seed)+'.h5')
-
     def append_sample(self, state, action, reward, next_state, done):
         self.memory.append((state, action, reward, next_state, done))
 

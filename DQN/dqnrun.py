@@ -202,11 +202,6 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
     end = time.time()
     print('Source Code Time: ', end - start)
 
-    # DQN Weights 저장
-    agent.save_weights()
-
-    sys.stdout.flush()
-
 
 if __name__ == "__main__":
     net = "Net/dqnm.net.xml"
