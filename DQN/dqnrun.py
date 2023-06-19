@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 from xml.etree.ElementTree import parse
 
 from collections import defaultdict
-from dqnTrainedAgent import dqnTrainedAgent
 
 from sumolib import checkBinary
 
@@ -34,8 +33,6 @@ def get_options():
     optParser.add_option("--nogui", action="store_true",
                          default=False, help="run commandline version of sumo")
     optParser.add_option("--noplot", action="store_true",
-                         default=False, help="save result in png")
-    optParser.add_option("--trained", "-T", action="store_true",
                          default=False, help="save result in png")
     options, args = optParser.parse_args()
     return options
@@ -115,18 +112,12 @@ def get_alldets(alledges):
     return alldets
 
 
-##########@경로 탐색@##########
-# DQN routing : routing by applying DQN algorithm (using qlEnv & alAgent)
-def dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+def dqn_run(num_seed, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
                  action_size=action_size)
-    if trained:
-        agent = dqnTrainedAgent(num_seed, edgelists, dict_connection, state_size, action_size, num_episode, dirModel)
-        print('**** [TrainedAgent {} Route Start] ****'.format(num_episode))
-    else:
-        agent = dqnAgent(num_seed, edgelists, dict_connection, state_size, action_size, num_episode, dirModel)
+    agent = dqnAgent(num_seed, edgelists, dict_connection, state_size, action_size, num_episode, dirModel)
 
     start = time.time()
 
@@ -168,11 +159,7 @@ def dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, ad
                 state = env.get_state(veh, curedge)
                 state = np.reshape(state, [1, state_size])  # for be 모델 input
 
-                if trained:
-                    qvalue, action = agent.get_trainedaction(state)
-                    # print('err1 dqnTrainedAgent Qvalue: {} / Action: {}'.format(qvalue,action))
-                else:
-                    action = agent.get_action(state)  # 현재 edge에서 가능한 (0,1,2) 중 선택
+                action = agent.get_action(state)  # 현재 edge에서 가능한 (0,1,2) 중 선택
 
                 nextedge = env.get_nextedge(curedge, action)  # next edge 계산해서 env에 보냄.
                 # print('err2')
@@ -187,16 +174,16 @@ def dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, ad
             reward, done = env.step(curedge, nextedge)  # changeTarget to nextedge
             score += reward
 
-            if not trained:
-                agent.append_sample(state, action, reward, next_state, done)
 
-            if not trained and len(agent.memory) >= agent.train_start:
+            agent.append_sample(state, action, reward, next_state, done)
+
+            if len(agent.memory) >= agent.train_start:
                 agent.train_model()
 
             if score < -1000:  # 이 기능 테스트 필요 0219 6pm
                 done = True
 
-            if not trained and done:
+            if done:
                 # 각 에피소드마다 타깃 모델을 모델의 가중치로 업데이트
                 agent.update_target_model()
                 env.sumoclose()
@@ -212,17 +199,6 @@ def dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, ad
                 scores.append(-score_avg)  # Mean Travel Time
                 episodes.append(episode)
                 break
-
-            if trained and done:  # trained 의미 : 이미 Trained된 모델 사용할 때-> append_sample, train_model, update_target_model 필요없음
-                # sumo 종료
-                env.sumoclose()
-                # mean avg 계산
-                score_avg = 0.9 * score_avg + 0.1 * score if score_avg != 0 else score
-                print("\n****Trained episode : {} | score_avg : {} ".format(episode, score_avg))
-
-                # 결과 Plot
-                scores.append(-score)
-                episodes.append(episode)
 
             curedge = nextedge
             cnt += 1
@@ -245,9 +221,7 @@ if __name__ == "__main__":
     randomrou = "Rou/dqnrandom.rou.xml"
     sumocfg = "dqn.sumocfg"
     dirModel = 'Model/dqn'
-
     veh = "veh0"
-
     destination = 'E9'
     successend = ["E9"]
     state_size = 64
@@ -260,7 +234,6 @@ if __name__ == "__main__":
         # sumoBinary = checkBinary('sumo')
         sumoBinary = checkBinary('sumo-gui')
 
-
     if options.num_episode:
         num_episode = int(options.num_episode)
     else:
@@ -271,11 +244,9 @@ if __name__ == "__main__":
     dets = generate_lanedetectionfile(net, det)  # 이미 생성해둠!
     alldets = get_alldets(edgelists)
 
-
-    trained = False
     num_seed = random.randrange(1000)
     while True:
         file = dirModel + str(num_episode) + '_' + str(num_seed) + '.h5'
         if not os.path.isfile(file): break
-    dqn_run(num_seed, trained, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+    dqn_run(num_seed, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
