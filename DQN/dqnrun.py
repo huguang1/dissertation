@@ -6,17 +6,10 @@ import sys
 import time
 import optparse
 import random
-import pylab
-import numpy as np
-import matplotlib.pyplot as plt
 from xml.etree.ElementTree import parse
-
 from collections import defaultdict
-
 from sumolib import checkBinary
-
 from dqnenv import dqnEnv
-from dqnagent import dqnAgent
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -120,7 +113,6 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
                  action_size=action_size)
-    agent = dqnAgent(num_seed, edgelists, dict_connection, state_size, action_size, num_episode, dirModel)
 
     start = time.time()
 
@@ -165,10 +157,7 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
                 env.sumoclose()
 
                 score_avg = 0.9 * score_avg + 0.1 * score if score_avg != 0 else score
-                print(
-                    "\n****episode : {} | score_avg : {} | memory_length : {} | epsilon : {}".format(episode, score_avg,
-                                                                                                     len(agent.memory),
-                                                                                                     agent.epsilon))
+                print("\n****episode : {} | score_avg : {}".format(episode, score_avg))
 
                 # 결과 Plot
                 # 1) Reward
