@@ -59,7 +59,7 @@ class dqnEnv():
         self.sumo.close()
         
     def reset(self):
-        
+
         self.episode+=1 
         self.start_simulation()
 
