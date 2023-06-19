@@ -147,3 +147,24 @@ Do Monte Carlo Tree Search(MCTS) using the policy and value networks
 3: Basically, master the operating principle of SUMO, and try to use python code to control the operation of cars and traffic lights in SUMO according to online tutorials. 1/15/2022 
 
 4: Learned the reinforcement algorithm, and at the same time, according to the open source information on the internet, used the reinforcement learning algorithm to control a Cartpole game in the gym module. 
+
+
+
+1. 设计最为简单的两条路的模型
+2. 使用代码控制多辆汽车的运行
+3. 使用算法控制车辆的方向选择
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
