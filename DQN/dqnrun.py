@@ -112,7 +112,7 @@ def get_alldets(alledges):
     return alldets
 
 
-def dqn_run(num_seed, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+def dqn_run(num_seed, sumoBinary, num_episode, net, randomrou, add, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
@@ -126,11 +126,6 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, trip, randomrou, add, dirMod
     for episode in range(num_episode):
 
         print("\n********#{} episode start***********".format(episode))
-        # reset environment
-        # generate random output
-        cmd_genDemand = "python C:/Program Files (x86)/Eclipse/Sumo/tools/randomTrips.py -n {} -o {} -r {} -b 0 -e 3600 -p 1.5 --additional-file {} --trip-attributes \"type='type1'\" --random".format(
-            net, trip, randomrou, add)
-        os.system(cmd_genDemand)
 
         score = 0
         routes = []
@@ -217,7 +212,6 @@ if __name__ == "__main__":
     net = "Net/dqnm.net.xml"
     add = "Add/dqn.add.xml"
     det = "Add/dqn.det.xml"
-    trip = "Rou/dqn.trip.xml"
     randomrou = "Rou/dqnrandom.rou.xml"
     sumocfg = "dqn.sumocfg"
     dirModel = 'Model/dqn'
@@ -248,5 +242,5 @@ if __name__ == "__main__":
     while True:
         file = dirModel + str(num_episode) + '_' + str(num_seed) + '.h5'
         if not os.path.isfile(file): break
-    dqn_run(num_seed, sumoBinary, num_episode, net, trip, randomrou, add, dirModel,
+    dqn_run(num_seed, sumoBinary, num_episode, net, randomrou, add, dirModel,
             sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
