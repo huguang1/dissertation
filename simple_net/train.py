@@ -92,13 +92,28 @@ def calculate_connections(edgelists, net):
     return dict_connection
 
 
+def get_reward(self, curedge, nextedge):
+    reward = 0
+    # reward = traveling time of curedge
+    det = curedge.replace('E', 'D')
+    num_veh = self.get_numVeh(det)
+    if num_veh == 1:  # 자기자신  #length/speedlimit if E7 or -E7 :10 else: 15
+        traveltime = self.dict_edgelengths[curedge] / self.dict_edgelimits[curedge]
+    else:
+        # print('err1 get_reward num_veh 확인용 : ',num_veh)
+        traveltime = self.sumo.edge.getTraveltime(curedge)  # (length/mean speed).
+
+    reward = -traveltime
+    return reward
+
+
 ##########@경로 탐색@##########
 # 1. random routing : routing randomly by calculating next route(edge) when the current edge is changed.
 def random_run(sumoBinary, sumocfg, edgelists):
     traci.start([sumoBinary, "-c", sumocfg, "--tripinfo-output", "tripinfo.xml"])  # start sumo server using cmd
 
     step = 0
-    traci.route.add("rou1", ["E2"])  # default route
+    traci.route.add("rou1", ["E0"])  # default route
     traci.vehicle.add("veh1", "rou1")
     traci.route.add("rou0", ["E2"])  # default route
     traci.vehicle.add("veh0", "rou0")
