@@ -108,7 +108,8 @@ def get_alldets(alledges):
     return alldets
 
 
-def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
+def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size,
+            action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
                  action_size=action_size)
@@ -192,4 +193,5 @@ if __name__ == "__main__":
     dets = generate_lanedetectionfile(net, det)  # 이미 생성해둠!
     alldets = get_alldets(edgelists)
 
-    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
+    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size,
+            action_size)
