@@ -43,9 +43,6 @@ class dqnEnv():
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
 
-    def sumo_step(self):
-        self.sumo.simulationStep()
-
     def sumoclose(self):
         self.sumo.close()
 
