@@ -42,11 +42,11 @@ class dqnEnv():
         route = ["E2", "E3", "E4"]
         veh1 = Vehicle(name, route_name, route)
         self.veh_list.append(veh0)
-        # self.veh_list.append(veh1)
+        self.veh_list.append(veh1)
         self.sumo.route.add(self.veh_list[0].route_name, self.veh_list[0].route)
         self.sumo.vehicle.add(self.veh_list[0].name, self.veh_list[0].route_name)
-        # self.sumo.route.add(self.veh_list[1].route_name, self.veh_list[1].route)
-        # self.sumo.vehicle.add(self.veh_list[1].name, self.veh_list[1].route_name)
+        self.sumo.route.add(self.veh_list[1].route_name, self.veh_list[1].route)
+        self.sumo.vehicle.add(self.veh_list[1].name, self.veh_list[1].route_name)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -87,9 +87,17 @@ class dqnEnv():
     def get_RoadID(self, veh):
         return traci.vehicle.getRoadID(veh)
 
-    def get_reward(self, curedge_dict, reward_dict):
+    def get_reward(self, curedge_dict, reward_dict, reward_record):
         for i in curedge_dict.keys():
+            if ":" in curedge_dict[i]:
+                continue
+            if i in reward_record.keys() and curedge_dict[i] in reward_record[i]:
+                continue
             traveltime = self.sumo.edge.getTraveltime(curedge_dict[i])
+            if i in reward_record.keys():
+                reward_record[i].append(curedge_dict[i])
+            else:
+                reward_record[i] = [curedge_dict[i]]
             if i in reward_dict.keys():
                 reward_dict[i] += -traveltime
             else:
@@ -121,29 +129,32 @@ class dqnEnv():
 
     def step(self):
         reward_dict = {}
-        change_reward = []
+        reward_record = {}
         while True:
             curedge_dict = self.get_all_curedge()
             beforeedge_dict = curedge_dict
             done_dict = self.get_done(curedge_dict)
-            reward_dict = self.get_reward(curedge_dict, reward_dict)
+            reward_dict = self.get_reward(curedge_dict, reward_dict, reward_record)
+            print(reward_record)
             if all(item for item in done_dict.values()):
                 return reward_dict
-            change_state = False
             while self.sumo.simulation.getMinExpectedNumber() > 0:
+                # self.sumo.simulationStep()
                 curedge_dict = self.get_all_curedge()
                 done_dict = self.get_done(curedge_dict)
                 if all(item for item in done_dict.values()):
                     break
                 self.sumo.simulationStep()
-                change_reward = []
+                change_state = False
                 for i in curedge_dict.keys():
-                    if curedge_dict[i] in self.edgelists and curedge_dict[i] != beforeedge_dict[i]:
-                        change_reward.append(i)
+                    if i not in beforeedge_dict.keys():
                         change_state = True
+                        break
+                    if curedge_dict[i] in self.edgelists and curedge_dict[i] != beforeedge_dict[i]:
+                        change_state = True
+                        break
                 if change_state:
                     break
-
             if all(item for item in done_dict.values()):
                 break
         return reward_dict
