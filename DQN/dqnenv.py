@@ -135,7 +135,3 @@ class dqnEnv():
                 break
 
         return reward, done    
-
-    
-    
-    
