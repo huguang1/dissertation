@@ -131,7 +131,7 @@ class dqnEnv():
             if done:
                 break  
             self.sumo.simulationStep() 
-            if curedge in self.edgelists and curedge !=beforeedge : #변했네!! 그럼 이제 다음 꺼 고르러 가야지
+            if curedge in self.edgelists and curedge !=beforeedge:
                 break
 
         return reward, done    

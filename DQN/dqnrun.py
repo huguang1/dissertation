@@ -132,15 +132,17 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
         done = False
 
         cnt = 0
+        route_list = ["E3", "E4"]
+        index = 0
         while not done:
             block = True
-            # cnt = 0
             while block:  # 막힌 도로를 고름 (막힌 도로 = '', not like 'E*' or '-E*')
                 if curedge == destination:
                     break
                 curedge = env.get_RoadID(veh)
                 # nextedge = env.get_nextedge(curedge)
-                nextedge = "E2"
+                nextedge = route_list[index]
+                index += 1
                 if nextedge != "":
                     break
 
@@ -174,13 +176,13 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
 
 
 if __name__ == "__main__":
-    net = "Net/simple.net.xml"
-    det = "Add/simple.det.xml"
-    sumocfg = "simple.sumocfg"
+    net = "Net/real.net.xml"
+    det = "Add/real.det.xml"
+    sumocfg = "real.sumocfg"
     dirModel = 'Model/dqn'
     veh = "veh0"
-    destination = 'E2'
-    successend = ["E2"]
+    destination = 'E4'
+    successend = ["E4"]
     state_size = 64
     action_size = 3
 
