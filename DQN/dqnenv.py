@@ -1,3 +1,5 @@
+import random
+
 import traci
 from collections import defaultdict
 
@@ -28,11 +30,11 @@ class dqnEnv():
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
         min_gap = 40  # 车辆之间的最小间距（以米为单位）
-
+        route_list = [["E2", "E3", "E4"], ["E2", "E3", "E4"], ["E2", "E5", "E6", "E4"]]
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            self.sumo.route.add(route_name, ["E2", "E3", "E4"])
+            self.sumo.route.add(route_name, random.choice(route_list))
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)

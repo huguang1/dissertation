@@ -143,8 +143,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        # sumoBinary = checkBinary('sumo')
-        sumoBinary = checkBinary('sumo-gui')
+        sumoBinary = checkBinary('sumo')
+        # sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
