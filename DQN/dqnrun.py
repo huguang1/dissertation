@@ -108,20 +108,15 @@ def get_alldets(alledges):
     return alldets
 
 
-def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
-            sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
+def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size):
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, veh=veh, destination=destination, state_size=state_size,
                  action_size=action_size)
-
     start = time.time()
-
     scores, episodes = [], []
     score_avg = 0
     for episode in range(num_episode):
-
         print("\n********#{} episode start***********".format(episode))
-
         score = 0
         routes = []
         env.reset()
@@ -136,7 +131,7 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
         index = 0
         while not done:
             block = True
-            while block:  # 막힌 도로를 고름 (막힌 도로 = '', not like 'E*' or '-E*')
+            while block:
                 if curedge == destination:
                     break
                 curedge = env.get_RoadID(veh)
@@ -149,19 +144,16 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
             print('%s -> ' % nextedge, end=' ')
             routes.append(nextedge)
 
-            reward, done = env.step(curedge, nextedge)  # changeTarget to nextedge
+            reward, done = env.step(curedge, nextedge)
             score += reward
 
-            if score < -1000:  # 이 기능 테스트 필요 0219 6pm
+            if score < -1000:
                 done = True
 
             if done:
                 env.sumoclose()
-
                 score_avg = 0.9 * score_avg + 0.1 * score if score_avg != 0 else score
                 print("\n****episode : {} | score_avg : {}".format(episode, score_avg))
-
-                # 결과 Plot
                 # 1) Reward
                 scores.append(-score_avg)  # Mean Travel Time
                 episodes.append(episode)
@@ -169,7 +161,6 @@ def dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
 
             curedge = nextedge
             cnt += 1
-
 
     end = time.time()
     print('Source Code Time: ', end - start)
@@ -179,7 +170,6 @@ if __name__ == "__main__":
     net = "Net/real.net.xml"
     det = "Add/real.det.xml"
     sumocfg = "real.sumocfg"
-    dirModel = 'Model/dqn'
     veh = "veh0"
     destination = 'E4'
     successend = ["E4"]
@@ -203,6 +193,4 @@ if __name__ == "__main__":
     dets = generate_lanedetectionfile(net, det)  # 이미 생성해둠!
     alldets = get_alldets(edgelists)
 
-    num_seed = random.randrange(1000)
-    dqn_run(num_seed, sumoBinary, num_episode, net, dirModel,
-            sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
+    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, veh, destination, state_size, action_size)
