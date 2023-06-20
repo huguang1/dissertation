@@ -10,6 +10,7 @@ from xml.etree.ElementTree import parse
 from collections import defaultdict
 from sumolib import checkBinary
 from dqnenv import dqnEnv
+import math
 
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
@@ -118,7 +119,11 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         print("\n********#{} episode start***********".format(episode))
         env.reset()
         score = env.step()
+        experiment_time = env.get_time()
         env.sumoclose()
+        reward = list(score.values())
+        print(reward)
+        print(experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
 
     end = time.time()

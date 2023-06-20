@@ -26,11 +26,16 @@ class dqnEnv():
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
+        max_speed = 30  # 车辆的最大速度（以米/秒为单位）
+        min_gap = 20  # 车辆之间的最小间距（以米为单位）
+
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, ["E2", "E3", "E4"])
             self.sumo.vehicle.add(name, route_name)
+            self.sumo.vehicle.setMaxSpeed(name, max_speed)
+            self.sumo.vehicle.setMinGap(name, min_gap)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -140,3 +145,7 @@ class dqnEnv():
             if all(item for item in done_dict.values()):
                 break
         return reward_dict
+
+    def get_time(self):
+        return self.sumo.simulation.getTime()
+
