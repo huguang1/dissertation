@@ -29,7 +29,6 @@ class dqnEnv():
         traci.route.add("rou0", ["E2", "E3"])  # default route
         traci.vehicle.add("veh0", "rou0")
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
-        self.dict_edgelimits = self.get_edgelimits()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
 
@@ -85,13 +84,6 @@ class dqnEnv():
             dict_edgelengths[edge] = length
             list_edgelengths.append(length)
         return dict_edgelengths, list_edgelengths
-
-    def get_edgelimits(self):
-        dict_edgelimits = defaultdict(float)
-        dict_edgelimits.update((k, 15.0) for k in self.edgelists)
-        dict_edgelimits['E7'] = 10.0
-        dict_edgelimits['-E7'] = 10.0
-        return dict_edgelimits
 
     def step(self, curedge, nextedge):
 
