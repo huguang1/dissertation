@@ -2,13 +2,6 @@ import traci
 from collections import defaultdict
 
 
-class Vehicle:
-    def __init__(self, name, route_name, route):
-        self.name = name
-        self.route_name = route_name
-        self.route = route
-
-
 class dqnEnv():
     def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, alldets: list, dict_connection,
                  destination: str, state_size: int, action_size: int, use_gui: bool = True,
@@ -33,20 +26,11 @@ class dqnEnv():
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
-        name = "veh0"
-        route_name = "rou0"
-        route = ["E2", "E3", "E4"]
-        veh0 = Vehicle(name, route_name, route)
-        name = "veh1"
-        route_name = "rou1"
-        route = ["E2", "E3", "E4"]
-        veh1 = Vehicle(name, route_name, route)
-        self.veh_list.append(veh0)
-        self.veh_list.append(veh1)
-        self.sumo.route.add(self.veh_list[0].route_name, self.veh_list[0].route)
-        self.sumo.vehicle.add(self.veh_list[0].name, self.veh_list[0].route_name)
-        self.sumo.route.add(self.veh_list[1].route_name, self.veh_list[1].route)
-        self.sumo.vehicle.add(self.veh_list[1].name, self.veh_list[1].route_name)
+        for i in range(1000):
+            route_name = "rou" + str(i)
+            name = "veh" + str(i)
+            self.sumo.route.add(route_name, ["E2", "E3", "E4"])
+            self.sumo.vehicle.add(name, route_name)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -61,10 +45,9 @@ class dqnEnv():
 
         self.episode += 1
         self.start_simulation()
-
-        curlane = self.get_curlane(self.veh_list[0].name)
+        curlane = self.get_curlane("veh0")
         while curlane == '':
-            curlane = self.get_curlane(self.veh_list[0].name)
+            curlane = self.get_curlane("veh0")
             self.sumo.simulationStep()
 
     def get_curlane(self, veh):
@@ -135,7 +118,6 @@ class dqnEnv():
             beforeedge_dict = curedge_dict
             done_dict = self.get_done(curedge_dict)
             reward_dict = self.get_reward(curedge_dict, reward_dict, reward_record)
-            print(reward_record)
             if all(item for item in done_dict.values()):
                 return reward_dict
             while self.sumo.simulation.getMinExpectedNumber() > 0:
