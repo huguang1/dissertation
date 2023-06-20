@@ -121,7 +121,8 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         score = env.step()
         experiment_time = env.get_time()
         env.sumoclose()
-        reward = list(score.values())
+        reward = sorted(list(score.values()))
+        print(type(reward))
         print(reward)
         print(experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
@@ -143,8 +144,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        sumoBinary = checkBinary('sumo')
-        # sumoBinary = checkBinary('sumo-gui')
+        # sumoBinary = checkBinary('sumo')
+        sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
