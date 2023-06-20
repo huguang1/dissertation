@@ -28,6 +28,7 @@ class dqnEnv():
         self.state_size = state_size
         self.dict_connection = dict_connection
         self.sumo = traci
+        self.veh_list = []
 
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
@@ -35,9 +36,10 @@ class dqnEnv():
         name = "veh0"
         route_name = "rou0"
         route = ["E2", "E3"]
-        self.veh0 = Vehicle(name, route_name, route)
-        self.sumo.route.add(self.veh0.route_name, self.veh0.route)  # default route
-        self.sumo.vehicle.add(self.veh0.name, self.veh0.route_name)
+        veh0 = Vehicle(name, route_name, route)
+        self.veh_list.append(veh0)
+        self.sumo.route.add(self.veh_list[0].route_name, self.veh_list[0].route)
+        self.sumo.vehicle.add(self.veh_list[0].name, self.veh_list[0].route_name)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -53,9 +55,9 @@ class dqnEnv():
         self.episode += 1
         self.start_simulation()
 
-        curlane = self.get_curlane(self.veh0.name)
+        curlane = self.get_curlane(self.veh_list[0].name)
         while curlane == '':
-            curlane = self.get_curlane(self.veh0.name)
+            curlane = self.get_curlane(self.veh_list[0].name)
             self.sumo.simulationStep()
 
     def get_curlane(self, veh):
@@ -108,7 +110,7 @@ class dqnEnv():
         # self.sumo.vehicle.changeTarget(self.veh, nextedge)
 
         while self.sumo.simulation.getMinExpectedNumber() > 0:
-            curedge = self.get_RoadID(self.veh0.name)
+            curedge = self.get_RoadID(self.veh_list[0].name)
             done = self.get_done(curedge)
             if done:
                 break

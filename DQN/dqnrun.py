@@ -121,7 +121,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         score = 0
         routes = []
         env.reset()
-        curedge = env.get_RoadID(env.veh0.name)
+        curedge = env.get_RoadID(env.veh_list[0].name)
 
         routes.append(curedge)
         print('%s -> ' % curedge, end=' ')
@@ -135,7 +135,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
             while block:
                 if curedge == destination:
                     break
-                curedge = env.get_RoadID(env.veh0.name)
+                curedge = env.get_RoadID(env.veh_list[0].name)
                 # nextedge = env.get_nextedge(curedge)
                 nextedge = route_list[index]
                 index += 1
