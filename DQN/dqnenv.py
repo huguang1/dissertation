@@ -34,6 +34,8 @@ class dqnEnv():
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
+        traci.route.add("rou0", ["E2", "E3"])  # default route
+        traci.vehicle.add("veh0", "rou0")
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         self.dict_edgelimits = self.get_edgelimits()
         destlane = self.destination+'_0'

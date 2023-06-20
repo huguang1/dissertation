@@ -152,8 +152,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
 
             if done:
                 env.sumoclose()
-                score_avg = 0.9 * score_avg + 0.1 * score if score_avg != 0 else score
-                print("\n****episode : {} | score_avg : {}".format(episode, score_avg))
+                print("\n****episode: {} | score: {}".format(episode, score))
                 # 1) Reward
                 scores.append(-score_avg)  # Mean Travel Time
                 episodes.append(episode)
