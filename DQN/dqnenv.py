@@ -121,6 +121,7 @@ class dqnEnv():
 
     def step(self):
         reward_dict = {}
+        change_reward = []
         while True:
             curedge_dict = self.get_all_curedge()
             beforeedge_dict = curedge_dict
@@ -128,14 +129,21 @@ class dqnEnv():
             reward_dict = self.get_reward(curedge_dict, reward_dict)
             if all(item for item in done_dict.values()):
                 return reward_dict
+            change_state = False
             while self.sumo.simulation.getMinExpectedNumber() > 0:
                 curedge_dict = self.get_all_curedge()
                 done_dict = self.get_done(curedge_dict)
                 if all(item for item in done_dict.values()):
                     break
                 self.sumo.simulationStep()
-                if curedge_dict != beforeedge_dict:
+                change_reward = []
+                for i in curedge_dict.keys():
+                    if curedge_dict[i] in self.edgelists and curedge_dict[i] != beforeedge_dict[i]:
+                        change_reward.append(i)
+                        change_state = True
+                if change_state:
                     break
+
             if all(item for item in done_dict.values()):
                 break
         return reward_dict
