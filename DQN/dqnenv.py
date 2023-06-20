@@ -32,26 +32,13 @@ class dqnEnv():
         self.sumo =traci
         
     def start_simulation(self):
-        sumo_cmd = [self.sumoBinary,
-            '-c', self.sumocfg,
-            '--max-depart-delay', str(self.max_depart_delay)]
-        
+        sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
-
-        ## 모든 edge 별 length & speed limit 정보 얻어오기
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
-    
         self.dict_edgelimits = self.get_edgelimits()
         destlane = self.destination+'_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
-        #print('self.destCord: ',self.destCord)
-        '''
-        if self.begin_time > 0:
-            sumo_cmd.append('-b {}'.format(self.begin_time))
-        if self.use_gui:
-            sumo_cmd.extend(['--start', '--quit-on-end'])
-            traci.gui.setSchema(traci.gui.DEFAULT_VIEW, "real world")
-        '''
+
     def sumo_step(self):
         self.sumo.simulationStep()
 
