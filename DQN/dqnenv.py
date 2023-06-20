@@ -2,9 +2,16 @@ import traci
 from collections import defaultdict
 
 
+class Vehicle:
+    def __init__(self, name, route_name, route):
+        self.name = name
+        self.route_name = route_name
+        self.route = route
+
+
 class dqnEnv():
     def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, alldets: list, dict_connection,
-                 veh: str, destination: str, state_size: int, action_size: int, use_gui: bool = True,
+                 destination: str, state_size: int, action_size: int, use_gui: bool = True,
                  begin_time: int = 0, num_seconds: int = 3600, max_depart_delay: int = 10000):
         self.sumoBinary = sumoBinary
         self.net = net_file
@@ -12,7 +19,6 @@ class dqnEnv():
         self.edgelists = edgelists
         self.alldets = alldets
         self.use_gui = use_gui
-        self.veh = veh
         self.destination = destination
         self.episode = 0  # # of run time
         self.begin_time = begin_time
@@ -26,8 +32,12 @@ class dqnEnv():
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
-        self.sumo.route.add("rou0", ["E2", "E3"])  # default route
-        self.sumo.vehicle.add("veh0", "rou0")
+        name = "veh0"
+        route_name = "rou0"
+        route = ["E2", "E3"]
+        self.veh0 = Vehicle(name, route_name, route)
+        self.sumo.route.add(self.veh0.route_name, self.veh0.route)  # default route
+        self.sumo.vehicle.add(self.veh0.name, self.veh0.route_name)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -43,9 +53,9 @@ class dqnEnv():
         self.episode += 1
         self.start_simulation()
 
-        curlane = self.get_curlane(self.veh)
+        curlane = self.get_curlane(self.veh0.name)
         while curlane == '':
-            curlane = self.get_curlane(self.veh)
+            curlane = self.get_curlane(self.veh0.name)
             self.sumo.simulationStep()
 
     def get_curlane(self, veh):
@@ -98,7 +108,7 @@ class dqnEnv():
         # self.sumo.vehicle.changeTarget(self.veh, nextedge)
 
         while self.sumo.simulation.getMinExpectedNumber() > 0:
-            curedge = self.get_RoadID(self.veh)
+            curedge = self.get_RoadID(self.veh0.name)
             done = self.get_done(curedge)
             if done:
                 break
