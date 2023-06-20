@@ -35,11 +35,18 @@ class dqnEnv():
         self.sumo.start(sumo_cmd)
         name = "veh0"
         route_name = "rou0"
-        route = ["E2", "E3"]
+        route = ["E2", "E3", "E4"]
         veh0 = Vehicle(name, route_name, route)
+        name = "veh1"
+        route_name = "rou1"
+        route = ["E2", "E3", "E4"]
+        veh1 = Vehicle(name, route_name, route)
         self.veh_list.append(veh0)
+        # self.veh_list.append(veh1)
         self.sumo.route.add(self.veh_list[0].route_name, self.veh_list[0].route)
         self.sumo.vehicle.add(self.veh_list[0].name, self.veh_list[0].route_name)
+        # self.sumo.route.add(self.veh_list[1].route_name, self.veh_list[1].route)
+        # self.sumo.vehicle.add(self.veh_list[1].name, self.veh_list[1].route_name)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -64,7 +71,7 @@ class dqnEnv():
         curlane = self.sumo.vehicle.getLaneID(veh)
         return curlane
 
-    def get_curedge(self, curlane):  ##0217목 8pm 수정 오류 확인해봐야함  curlane ''뜨는거!!!!!!
+    def get_curedge(self, curlane):
         curedge = self.sumo.lane.getEdgeID(curlane)
         return curedge
 
@@ -77,7 +84,7 @@ class dqnEnv():
     def get_RoadID(self, veh):
         return traci.vehicle.getRoadID(veh)
 
-    def get_reward(self, curedge, nextedge):
+    def get_reward(self, curedge):
         traveltime = self.sumo.edge.getTraveltime(curedge)
         reward = -traveltime
         return reward
@@ -97,19 +104,14 @@ class dqnEnv():
             list_edgelengths.append(length)
         return dict_edgelengths, list_edgelengths
 
-    def step(self, curedge, nextedge):
-
-        beforeedge = curedge  # 비교해서 변하면 고를려고!
-
+    def step(self, curedge):
+        beforeedge = curedge
         done = self.get_done(curedge)
-        reward = self.get_reward(curedge, nextedge)
-
+        reward = self.get_reward(curedge)
         if done:
             return reward, done
-
-        # self.sumo.vehicle.changeTarget(self.veh, nextedge)
-
         while self.sumo.simulation.getMinExpectedNumber() > 0:
+            vehicle_ids = self.sumo.vehicle.getIDList()
             curedge = self.get_RoadID(self.veh_list[0].name)
             done = self.get_done(curedge)
             if done:
@@ -117,5 +119,4 @@ class dqnEnv():
             self.sumo.simulationStep()
             if curedge in self.edgelists and curedge != beforeedge:
                 break
-
         return reward, done

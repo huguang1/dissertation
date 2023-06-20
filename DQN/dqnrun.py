@@ -128,38 +128,20 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         done = False
 
         cnt = 0
-        route_list = ["E3", "E4"]
-        index = 0
         while not done:
-            block = True
-            while block:
+            while True:
                 if curedge == destination:
                     break
                 curedge = env.get_RoadID(env.veh_list[0].name)
-                # nextedge = env.get_nextedge(curedge)
-                nextedge = route_list[index]
-                index += 1
-                if nextedge != "":
-                    break
-
-            print('%s -> ' % nextedge, end=' ')
-            routes.append(nextedge)
-
-            reward, done = env.step(curedge, nextedge)
+                break
+            reward, done = env.step(curedge)
             score += reward
-
-            if score < -1000:
-                done = True
-
             if done:
                 env.sumoclose()
                 print("\n****episode: {} | score: {}".format(episode, score))
-                # 1) Reward
                 scores.append(-score_avg)  # Mean Travel Time
                 episodes.append(episode)
                 break
-
-            curedge = nextedge
             cnt += 1
 
     end = time.time()
@@ -179,8 +161,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        # sumoBinary = checkBinary('sumo')
-        sumoBinary = checkBinary('sumo-gui')
+        sumoBinary = checkBinary('sumo')
+        # sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
