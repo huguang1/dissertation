@@ -75,19 +75,26 @@ class dqnEnv():
         curedge = self.sumo.lane.getEdgeID(curlane)
         return curedge
 
-    def get_done(self, curedge):
-        done = False
-        if curedge == self.destination:
-            done = True
-        return done
+    def get_done(self, curedge_dict):
+        done_dict = {}
+        for i in curedge_dict.keys():
+            if curedge_dict[i] == self.destination:
+                done_dict[i] = True
+            else:
+                done_dict[i] = False
+        return done_dict
 
     def get_RoadID(self, veh):
         return traci.vehicle.getRoadID(veh)
 
-    def get_reward(self, curedge):
-        traveltime = self.sumo.edge.getTraveltime(curedge)
-        reward = -traveltime
-        return reward
+    def get_reward(self, curedge_dict, reward_dict):
+        for i in curedge_dict.keys():
+            traveltime = self.sumo.edge.getTraveltime(curedge_dict[i])
+            if i in reward_dict.keys():
+                reward_dict[i] += -traveltime
+            else:
+                reward_dict[i] = -traveltime
+        return reward_dict
 
     def get_nextedge(self, curedge, action):
         nextedge = self.dict_connection[curedge][action]
@@ -104,19 +111,31 @@ class dqnEnv():
             list_edgelengths.append(length)
         return dict_edgelengths, list_edgelengths
 
-    def step(self, curedge):
-        beforeedge = curedge
-        done = self.get_done(curedge)
-        reward = self.get_reward(curedge)
-        if done:
-            return reward, done
-        while self.sumo.simulation.getMinExpectedNumber() > 0:
-            vehicle_ids = self.sumo.vehicle.getIDList()
-            curedge = self.get_RoadID(self.veh_list[0].name)
-            done = self.get_done(curedge)
-            if done:
+    def get_all_curedge(self):
+        vehicle_ids = self.sumo.vehicle.getIDList()
+        curedge_dict = {}
+        for i in vehicle_ids:
+            curedge = self.get_RoadID(i)
+            curedge_dict[i] = curedge
+        return curedge_dict
+
+    def step(self):
+        reward_dict = {}
+        while True:
+            curedge_dict = self.get_all_curedge()
+            beforeedge_dict = curedge_dict
+            done_dict = self.get_done(curedge_dict)
+            reward_dict = self.get_reward(curedge_dict, reward_dict)
+            if all(item for item in done_dict.values()):
+                return reward_dict
+            while self.sumo.simulation.getMinExpectedNumber() > 0:
+                curedge_dict = self.get_all_curedge()
+                done_dict = self.get_done(curedge_dict)
+                if all(item for item in done_dict.values()):
+                    break
+                self.sumo.simulationStep()
+                if curedge_dict != beforeedge_dict:
+                    break
+            if all(item for item in done_dict.values()):
                 break
-            self.sumo.simulationStep()
-            if curedge in self.edgelists and curedge != beforeedge:
-                break
-        return reward, done
+        return reward_dict

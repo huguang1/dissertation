@@ -114,35 +114,12 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
                  action_size=action_size)
     start = time.time()
-    scores, episodes = [], []
-    score_avg = 0
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
-        score = 0
-        routes = []
         env.reset()
-        curedge = env.get_RoadID(env.veh_list[0].name)
-
-        routes.append(curedge)
-        print('%s -> ' % curedge, end=' ')
-        done = False
-
-        cnt = 0
-        while not done:
-            while True:
-                if curedge == destination:
-                    break
-                curedge = env.get_RoadID(env.veh_list[0].name)
-                break
-            reward, done = env.step(curedge)
-            score += reward
-            if done:
-                env.sumoclose()
-                print("\n****episode: {} | score: {}".format(episode, score))
-                scores.append(-score_avg)  # Mean Travel Time
-                episodes.append(episode)
-                break
-            cnt += 1
+        score = env.step()
+        env.sumoclose()
+        print("\n****episode: {} | score: {}".format(episode, score))
 
     end = time.time()
     print('Source Code Time: ', end - start)
@@ -161,8 +138,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        sumoBinary = checkBinary('sumo')
-        # sumoBinary = checkBinary('sumo-gui')
+        # sumoBinary = checkBinary('sumo')
+        sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
