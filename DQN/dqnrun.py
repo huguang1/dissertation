@@ -121,6 +121,9 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         score = env.step()
         experiment_time = env.get_time()
         env.sumoclose()
+        for i, v in score.items():
+            passtime = v["E4"] - v["E2"]
+            score[i] = passtime
         reward = sorted(list(score.values()))
         print(type(reward))
         print(reward)

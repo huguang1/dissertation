@@ -31,7 +31,7 @@ class dqnEnv():
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
         min_gap = 40  # 车辆之间的最小间距（以米为单位）
         route_list = [["E2", "E3", "E4"], ["E2", "E3", "E4"], ["E2", "E5", "E6", "E4"]]
-        for i in range(1000):
+        for i in range(100):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             # self.sumo.route.add(route_name, random.choice(route_list))
@@ -75,22 +75,22 @@ class dqnEnv():
     def get_RoadID(self, veh):
         return traci.vehicle.getRoadID(veh)
 
-    def get_reward(self, curedge_dict, reward_dict, reward_record):
+    def get_reward(self, curedge_dict, reward_record):
         for i in curedge_dict.keys():
             if ":" in curedge_dict[i]:
                 continue
-            if i in reward_record.keys() and curedge_dict[i] in reward_record[i]:
+            if curedge_dict[i] not in ["E2", "E4"]:
                 continue
-            traveltime = self.sumo.edge.getTraveltime(curedge_dict[i])
+            if i in reward_record.keys() and curedge_dict[i] in reward_record[i].keys():
+                continue
+            traveltime = self.sumo.simulation.getTime()
             if i in reward_record.keys():
-                reward_record[i].append(curedge_dict[i])
+                reward_record[i][curedge_dict[i]] = traveltime
             else:
-                reward_record[i] = [curedge_dict[i]]
-            if i in reward_dict.keys():
-                reward_dict[i] += -traveltime
-            else:
-                reward_dict[i] = -traveltime
-        return reward_dict
+                reward_record[i] = {
+                    curedge_dict[i]: traveltime
+                }
+        return reward_record
 
     def get_nextedge(self, curedge, action):
         nextedge = self.dict_connection[curedge][action]
@@ -116,35 +116,22 @@ class dqnEnv():
         return curedge_dict
 
     def step(self):
-        reward_dict = {}
         reward_record = {}
-        while True:
+        while self.sumo.simulation.getMinExpectedNumber() > 0:
             curedge_dict = self.get_all_curedge()
             beforeedge_dict = curedge_dict
+            reward_record = self.get_reward(curedge_dict, reward_record)
             done_dict = self.get_done(curedge_dict)
-            reward_dict = self.get_reward(curedge_dict, reward_dict, reward_record)
-            if all(item for item in done_dict.values()):
-                return reward_dict
-            while self.sumo.simulation.getMinExpectedNumber() > 0:
-                # self.sumo.simulationStep()
+            if all(item for item in done_dict.values()):  # 判断是否结束
+                return reward_record
+            self.sumo.simulationStep()
+            while True:
                 curedge_dict = self.get_all_curedge()
-                done_dict = self.get_done(curedge_dict)
-                if all(item for item in done_dict.values()):
+                if beforeedge_dict == curedge_dict:
+                    self.sumo.simulationStep()
+                else:
                     break
-                self.sumo.simulationStep()
-                change_state = False
-                for i in curedge_dict.keys():
-                    if i not in beforeedge_dict.keys():
-                        change_state = True
-                        break
-                    if curedge_dict[i] in self.edgelists and curedge_dict[i] != beforeedge_dict[i]:
-                        change_state = True
-                        break
-                if change_state:
-                    break
-            if all(item for item in done_dict.values()):
-                break
-        return reward_dict
+        return reward_record
 
     def get_time(self):
         return self.sumo.simulation.getTime()
