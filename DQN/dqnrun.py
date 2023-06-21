@@ -84,34 +84,14 @@ def calculate_connections(edgelists, net):
     return dict_connection
 
 
-def generate_lanedetectionfile(net, det):
-    # generate det.xml file by setting a detector at the end of each lane (-10m)
-    alledges = get_alledges(net)
-    edgesinfo = get_edgesinfo(net)
-    alllanes = [edge + '_0' for edge in alledges]
-    alldets = [edge.replace("E", "D") for edge in alledges]
-    edges = []
-    for i in edgesinfo:
-        if ':' not in i["id"]:
-            edges.append(i)
-    with open(det, "w") as f:
-        print('<additional>', file=f)
-        for i, v in enumerate(edges):
-            print(
-                '        <laneAreaDetector id="%s" lane="%s" pos="0.0" length="%s" freq ="%s" file="dqn_detfile.out"/>'
-                % (alldets[i], v['id'], v['length'], "1"), file=f)
-        print('</additional>', file=f)
-    return alldets
-
-
 def get_alldets(alledges):
     alldets = [edge.replace("E", "D") for edge in alledges]
     return alldets
 
 
-def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
+def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, destination, state_size,
             action_size):
-    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
+    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
                  action_size=action_size)
     start = time.time()
@@ -135,9 +115,8 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
 
 
 if __name__ == "__main__":
-    route_name = "long"
+    route_name = "realroute"
     net = f"Net/{route_name}.net.xml"
-    det = f"Add/{route_name}.det.xml"
     sumocfg = f"{route_name}.sumocfg"
     destination = 'E4'
     successend = ["E4"]
@@ -158,8 +137,6 @@ if __name__ == "__main__":
 
     edgelists = get_alledges(net)  # 총 20개 출력
     dict_connection = calculate_connections(edgelists, net)
-    dets = generate_lanedetectionfile(net, det)  # 이미 생성해둠!
-    alldets = get_alldets(edgelists)
 
-    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
+    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, destination, state_size,
             action_size)

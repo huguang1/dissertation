@@ -5,14 +5,13 @@ from collections import defaultdict
 
 
 class dqnEnv():
-    def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, alldets: list, dict_connection,
+    def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, dict_connection,
                  destination: str, state_size: int, action_size: int, use_gui: bool = True,
                  begin_time: int = 0, num_seconds: int = 3600, max_depart_delay: int = 10000):
         self.sumoBinary = sumoBinary
         self.net = net_file
         self.sumocfg = cfg_file
         self.edgelists = edgelists
-        self.alldets = alldets
         self.use_gui = use_gui
         self.destination = destination
         self.episode = 0  # # of run time
@@ -34,8 +33,8 @@ class dqnEnv():
         for i in range(300):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            self.sumo.route.add(route_name, random.choice(route_list))
-            # self.sumo.route.add(route_name, route_list[0])
+            # self.sumo.route.add(route_name, random.choice(route_list))
+            self.sumo.route.add(route_name, route_list[0])
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)
