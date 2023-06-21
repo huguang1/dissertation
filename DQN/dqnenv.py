@@ -30,7 +30,7 @@ class dqnEnv():
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
         min_gap = 5  # 车辆之间的最小间距（以米为单位）
         route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
-        for i in range(1000):
+        for i in range(100):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, random.choice(route_list))
@@ -61,15 +61,6 @@ class dqnEnv():
     def get_curedge(self, curlane):
         curedge = self.sumo.lane.getEdgeID(curlane)
         return curedge
-
-    def get_done(self, curedge_dict):
-        done_dict = {}
-        for i in curedge_dict.keys():
-            if curedge_dict[i] == self.destination:
-                done_dict[i] = True
-            else:
-                done_dict[i] = False
-        return done_dict
 
     def get_RoadID(self, veh):
         return traci.vehicle.getRoadID(veh)
@@ -106,26 +97,24 @@ class dqnEnv():
             list_edgelengths.append(length)
         return dict_edgelengths, list_edgelengths
 
-    def get_all_curedge(self):
+    def get_all_curedge(self, curedge_dict):
         vehicle_ids = self.sumo.vehicle.getIDList()
-        curedge_dict = {}
         for i in vehicle_ids:
             curedge = self.get_RoadID(i)
-            curedge_dict[i] = curedge
+            if curedge in ["E0", "E4"]:
+                curedge_dict[i] = curedge
         return curedge_dict
 
     def step(self):
         reward_record = {}
+        curedge_dict = {}
         while self.sumo.simulation.getMinExpectedNumber() > 0:
-            curedge_dict = self.get_all_curedge()
+            curedge_dict = self.get_all_curedge(curedge_dict)
             beforeedge_dict = curedge_dict
             reward_record = self.get_reward(curedge_dict, reward_record)
-            done_dict = self.get_done(curedge_dict)
-            if all(item for item in done_dict.values()):  # 判断是否结束
-                return reward_record
             self.sumo.simulationStep()
-            while True:
-                curedge_dict = self.get_all_curedge()
+            while self.sumo.simulation.getMinExpectedNumber() > 0:
+                curedge_dict = self.get_all_curedge(curedge_dict)
                 if beforeedge_dict == curedge_dict:
                     self.sumo.simulationStep()
                 else:
