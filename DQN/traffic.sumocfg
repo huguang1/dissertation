@@ -1,0 +1,12 @@
+<configuration>
+    <input>
+        <net-file value="./Net/long.net.xml"/>
+        <route-files value="./Rou/long.rou.xml"/>
+        <gui-settings-file value="long.settings.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="1000000"/>
+        <step-length value="0.1" />
+    </time>
+</configuration>
