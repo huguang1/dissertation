@@ -28,9 +28,9 @@ class dqnEnv():
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
-        min_gap = 40  # 车辆之间的最小间距（以米为单位）
+        min_gap = 5  # 车辆之间的最小间距（以米为单位）
         route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
-        for i in range(300):
+        for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, random.choice(route_list))
