@@ -122,7 +122,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         experiment_time = env.get_time()
         env.sumoclose()
         for i, v in score.items():
-            passtime = v["E4"] - v["E2"]
+            passtime = v["E4"] - v["E0"]
             score[i] = passtime
         reward = sorted(list(score.values()))
         print(sum(reward)/len(reward))
@@ -135,9 +135,10 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
 
 
 if __name__ == "__main__":
-    net = "Net/real.net.xml"
-    det = "Add/real.det.xml"
-    sumocfg = "real.sumocfg"
+    route_name = "long"
+    net = f"Net/{route_name}.net.xml"
+    det = f"Add/{route_name}.det.xml"
+    sumocfg = f"{route_name}.sumocfg"
     destination = 'E4'
     successend = ["E4"]
     state_size = 64

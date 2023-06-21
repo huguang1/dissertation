@@ -30,12 +30,12 @@ class dqnEnv():
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
         min_gap = 40  # 车辆之间的最小间距（以米为单位）
-        route_list = [["E2", "E3", "E4"], ["E2", "E3", "E4"], ["E2", "E5", "E6", "E4"]]
-        for i in range(1000):
+        route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E6", "E7", "E8", "E4"]]
+        for i in range(300):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            # self.sumo.route.add(route_name, random.choice(route_list))
-            self.sumo.route.add(route_name, route_list[0])
+            self.sumo.route.add(route_name, random.choice(route_list))
+            # self.sumo.route.add(route_name, route_list[0])
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)
@@ -79,7 +79,7 @@ class dqnEnv():
         for i in curedge_dict.keys():
             if ":" in curedge_dict[i]:
                 continue
-            if curedge_dict[i] not in ["E2", "E4"]:
+            if curedge_dict[i] not in ["E0", "E4"]:
                 continue
             if i in reward_record.keys() and curedge_dict[i] in reward_record[i].keys():
                 continue
