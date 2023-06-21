@@ -115,7 +115,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, d
 
 
 if __name__ == "__main__":
-    route_name = "realroute"
+    route_name = "changelight"
     net = f"Net/{route_name}.net.xml"
     sumocfg = f"{route_name}.sumocfg"
     destination = 'E4'
