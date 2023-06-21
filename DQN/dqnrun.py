@@ -125,7 +125,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
             passtime = v["E4"] - v["E2"]
             score[i] = passtime
         reward = sorted(list(score.values()))
-        print(type(reward))
+        print(sum(reward)/len(reward))
         print(reward)
         print(experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
