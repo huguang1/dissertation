@@ -97,6 +97,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, d
     start = time.time()
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
+        a = time.time()
         env.reset()
         score = env.step()
         experiment_time = env.get_time()
@@ -109,6 +110,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, d
         print(reward)
         print(experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
+        print('执行时间', time.time() - a)
 
     end = time.time()
     print('Source Code Time: ', end - start)

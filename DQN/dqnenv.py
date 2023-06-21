@@ -33,8 +33,8 @@ class dqnEnv():
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            self.sumo.route.add(route_name, random.choice(route_list))
-            # self.sumo.route.add(route_name, route_list[0])
+            # self.sumo.route.add(route_name, random.choice(route_list))
+            self.sumo.route.add(route_name, route_list[0])
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)
