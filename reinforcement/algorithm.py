@@ -86,43 +86,31 @@ def ValueIteration(m):
             for a in 'ESNW':
                 if a == 'E':
                     nextCell = NextCell(a, 'S')
-                    aa = get_reward(currCell, nextCell)
                     ETmp = (1 - Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'L')
-                    aa = get_reward(currCell, nextCell)
                     NTmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'R')
-                    aa = get_reward(currCell, nextCell)
                     STmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                 elif a == 'S':
                     nextCell = NextCell(a, 'S')
-                    aa = get_reward(currCell, nextCell)
                     ETmp = (1 - Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'R')
-                    aa = get_reward(currCell, nextCell)
                     NTmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'L')
-                    aa = get_reward(currCell, nextCell)
                     STmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                 elif a == 'N':
                     nextCell = NextCell(a, 'S')
-                    aa = get_reward(currCell, nextCell)
                     ETmp = (1 - Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'L')
-                    aa = get_reward(currCell, nextCell)
                     NTmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'R')
-                    aa = get_reward(currCell, nextCell)
                     STmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                 else:
                     nextCell = NextCell(a, 'S')
-                    aa = get_reward(currCell, nextCell)
                     ETmp = (1 - Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'R')
-                    aa = get_reward(currCell, nextCell)
                     NTmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                     nextCell = NextCell(a, 'L')
-                    aa = get_reward(currCell, nextCell)
                     STmp = (0.5 * Noise) * (-1 * get_reward(currCell, nextCell) + oldV[nextCell] * Discount)
                 Q[a] = ETmp + WTmp + NTmp + STmp
                 count = count + 1
