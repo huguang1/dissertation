@@ -1,5 +1,5 @@
 import random
-
+import copy
 import traci
 from collections import defaultdict
 
@@ -110,7 +110,7 @@ class dqnEnv():
         curedge_dict = {}
         while self.sumo.simulation.getMinExpectedNumber() > 0:
             curedge_dict = self.get_all_curedge(curedge_dict)
-            beforeedge_dict = curedge_dict
+            beforeedge_dict = copy.deepcopy(curedge_dict)
             reward_record = self.get_reward(curedge_dict, reward_record)
             self.sumo.simulationStep()
             while self.sumo.simulation.getMinExpectedNumber() > 0:
