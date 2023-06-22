@@ -2,6 +2,7 @@ import random
 import copy
 import traci
 from collections import defaultdict
+from collections import Counter
 
 
 class dqnEnv():
@@ -23,8 +24,9 @@ class dqnEnv():
         self.dict_connection = dict_connection
         self.sumo = traci
         self.veh_list = []
+        self.action = {}
 
-    def start_simulation(self):
+    def start_simulation(self, agent_dict):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
@@ -33,11 +35,17 @@ class dqnEnv():
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            # self.sumo.route.add(route_name, random.choice(route_list))
-            self.sumo.route.add(route_name, route_list[0])
+            action = int(agent_dict[name].get_action())
+            self.action[name] = action
+            self.sumo.route.add(route_name, route_list[action-1])
+            # self.sumo.route.add(route_name, route_list[0])
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)
+
+        counter = Counter(self.action.values())
+        most_common = counter.most_common(1)
+        print('选择', most_common)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -45,10 +53,10 @@ class dqnEnv():
     def sumoclose(self):
         self.sumo.close()
 
-    def reset(self):
+    def reset(self, agent_dict):
 
         self.episode += 1
-        self.start_simulation()
+        self.start_simulation(agent_dict)
         curlane = self.get_curlane("veh0")
         while curlane == '':
             curlane = self.get_curlane("veh0")
@@ -119,7 +127,7 @@ class dqnEnv():
                     self.sumo.simulationStep()
                 else:
                     break
-        return reward_record
+        return reward_record, self.action
 
     def get_time(self):
         return self.sumo.simulation.getTime()

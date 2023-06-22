@@ -10,6 +10,7 @@ from xml.etree.ElementTree import parse
 from collections import defaultdict
 from sumolib import checkBinary
 from dqnenv import dqnEnv
+from dqn import DQNLearn
 import math
 
 if 'SUMO_HOME' in os.environ:
@@ -95,16 +96,21 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, d
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
                  action_size=action_size)
     start = time.time()
+    agent_dict = {}  # 每个汽车都有一个agent
+    for i in range(1000):
+        agent_dict["veh"+str(i)] = DQNLearn()
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
         a = time.time()
-        env.reset()
-        score = env.step()
+        env.reset(agent_dict)
+        score, action = env.step()
         experiment_time = env.get_time()
         env.sumoclose()
         for i, v in score.items():
             passtime = v["E4"] - v["E0"]
             score[i] = passtime
+        for i, v in score.items():
+            agent_dict[i].store(action[i], v)
         reward = sorted(list(score.values()))
         print(sum(reward)/len(reward))
         print(reward)
@@ -129,8 +135,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        # sumoBinary = checkBinary('sumo')
-        sumoBinary = checkBinary('sumo-gui')
+        sumoBinary = checkBinary('sumo')
+        # sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
