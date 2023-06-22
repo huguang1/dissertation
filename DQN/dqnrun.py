@@ -10,7 +10,7 @@ from xml.etree.ElementTree import parse
 from collections import defaultdict
 from sumolib import checkBinary
 from dqnenv import dqnEnv
-from dqn import DQNLearn
+from dqn_store import DQNLearn
 import math
 
 if 'SUMO_HOME' in os.environ:
