@@ -7,7 +7,7 @@ import numpy as np
 
 class dqnEnv():
     def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, alldets: list, dict_connection,
-                 destination: str, state_size: int, action_size: int, use_gui: bool = True,
+                 destination: str, state_size: int, action_size: int, agent_dict, use_gui: bool = True,
                  begin_time: int = 0, num_seconds: int = 3600, max_depart_delay: int = 10000):
         self.sumoBinary = sumoBinary
         self.net = net_file
@@ -21,18 +21,19 @@ class dqnEnv():
         self.num_seconds = num_seconds
         self.max_depart_delay = max_depart_delay
         self.action_size = action_size
+        self.agent_dict = agent_dict
         self.state_size = state_size
         self.dict_connection = dict_connection
         self.sumo = traci
         self.veh_list = []
-        self.action = {}
 
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
         min_gap = 5  # 车辆之间的最小间距（以米为单位）
-        route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
+        # route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
+        route_list = [["E0"]]
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
@@ -84,10 +85,6 @@ class dqnEnv():
                 }
         return reward_record
 
-    def get_nextedge(self, curedge, action):
-        nextedge = self.dict_connection[curedge][action]
-        return nextedge
-
     def get_edgelengths(self):
         dict_edgelengths = defaultdict(float)
         list_edgelengths = []
@@ -119,24 +116,17 @@ class dqnEnv():
         state.extend(list(self.destCord))  # 这个是终点
         return state
 
-    def get_action(self, state):
-
-        if np.random.rand() <= self.epsilon:
-            action = random.randrange(self.action_size)
-        else:
-            qvalue = self.model(state)
-            action = np.argmax(qvalue[0])
-        return action
-
     def get_all_curedge(self, curedge_dict):
         vehicle_ids = self.sumo.vehicle.getIDList()
         for veh in vehicle_ids:
             curedge = self.get_RoadID(veh)
             if veh not in curedge_dict.keys():
                 state = self.get_state(veh, curedge)  # 这个状态有46个
-                action = self.get_action(state)
-                self.sumo.vehicle.changeTarget(veh, [])  # 차량 움직여!
-                pass
+                self.agent_dict[veh].state = state
+                action = self.agent_dict[veh].get_action(state)
+                self.agent_dict[veh].action = action
+                route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
+                self.sumo.vehicle.setRoute(veh, route_list[action])  # 차량 움직여!
             if curedge in ["E0", "E4"]:
                 curedge_dict[veh] = curedge
         return curedge_dict
@@ -155,7 +145,7 @@ class dqnEnv():
                     self.sumo.simulationStep()
                 else:
                     break
-        return reward_record, self.action
+        return reward_record
 
     def get_time(self):
         return self.sumo.simulation.getTime()

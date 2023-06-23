@@ -110,18 +110,18 @@ def get_alldets(alledges):
 
 def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
-    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
-                 dict_connection=dict_connection, destination=destination, state_size=state_size,
-                 action_size=action_size)
-    start = time.time()
     agent_dict = {}  # 每个汽车都有一个agent
     for i in range(1000):
         agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
+    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
+                 dict_connection=dict_connection, destination=destination, state_size=state_size,
+                 action_size=action_size, agent_dict=agent_dict)
+    start = time.time()
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
         a = time.time()
         env.reset()
-        score, action = env.step()
+        score = env.step()
         experiment_time = env.get_time()
         env.sumoclose()
         for i, v in score.items():
@@ -129,7 +129,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
             score[i] = passtime
         for i, agent in agent_dict.items():
             # 将reward放到记录中去
-            agent.append_sample(state, action, reward, state, done)
+            agent.append_sample(agent.state, agent.action, score[i], agent.state, True)
             # 训练
             if len(agent.memory) >= agent.train_start:
                 agent.train_model()
@@ -153,15 +153,15 @@ if __name__ == "__main__":
     sumocfg = f"{route_name}.sumocfg"
     destination = 'E4'
     successend = ["E4"]
-    state_size = 64
-    action_size = 3
+    state_size = 46
+    action_size = 2
 
     options = get_options()
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        # sumoBinary = checkBinary('sumo')
-        sumoBinary = checkBinary('sumo-gui')
+        sumoBinary = checkBinary('sumo')
+        # sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)

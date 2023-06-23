@@ -22,7 +22,9 @@ class dqnAgent():
         self.epsilon_decay = 0.95
         self.epsilon_min = 0.05
         self.batch_size = 32  # 조절
-        self.train_start = 500  # 조절
+        self.train_start = 32  # 조절
+        self.state = None
+        self.action = None
 
         # 리플레이 메모리 최대크기 2000
         self.memory = deque(maxlen=100)  # double-ended queue，双端队列
