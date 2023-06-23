@@ -111,7 +111,7 @@ def get_alldets(alledges):
 def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
     agent_dict = {}  # 每个汽车都有一个agent
-    for i in range(1000):
+    for i in range(500):
         agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
