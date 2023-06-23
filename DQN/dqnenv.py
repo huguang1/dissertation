@@ -26,6 +26,7 @@ class dqnEnv():
         self.dict_connection = dict_connection
         self.sumo = traci
         self.veh_list = []
+        self.action_list = []
 
     def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
@@ -34,7 +35,7 @@ class dqnEnv():
         min_gap = 5  # 车辆之间的最小间距（以米为单位）
         # route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
         route_list = [["E0"]]
-        for i in range(500):
+        for i in range(100):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, route_list[0])
@@ -76,7 +77,7 @@ class dqnEnv():
                 continue
             if i in reward_record.keys() and curedge_dict[i] in reward_record[i].keys():
                 continue
-            traveltime = self.sumo.simulation.getTime()
+            traveltime = self.sumo.simulation.getTime() * -1
             if i in reward_record.keys():
                 reward_record[i][curedge_dict[i]] = traveltime
             else:
@@ -122,8 +123,10 @@ class dqnEnv():
             curedge = self.get_RoadID(veh)
             if veh not in curedge_dict.keys():
                 state = self.get_state(veh, curedge)  # 这个状态有46个
+                state = np.reshape(state, [1, 46])
                 self.agent_dict[veh].state = state
                 action = self.agent_dict[veh].get_action(state)
+                self.action_list.append(action)
                 self.agent_dict[veh].action = action
                 route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
                 self.sumo.vehicle.setRoute(veh, route_list[action])  # 차량 움직여!

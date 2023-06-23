@@ -11,6 +11,7 @@ from collections import defaultdict
 from sumolib import checkBinary
 from dqnenv import dqnEnv
 from dqnagent import dqnAgent
+from collections import Counter
 import math
 
 if 'SUMO_HOME' in os.environ:
@@ -111,7 +112,7 @@ def get_alldets(alledges):
 def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
     agent_dict = {}  # 每个汽车都有一个agent
-    for i in range(500):
+    for i in range(100):
         agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
@@ -123,6 +124,11 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         env.reset()
         score = env.step()
         experiment_time = env.get_time()
+        print(env.action_list)
+        counter = Counter(env.action_list)
+        most_common = counter.most_common(1)
+        print(most_common[0][0], most_common[0][1])
+        env.action_list = []
         env.sumoclose()
         for i, v in score.items():
             passtime = v["E4"] - v["E0"]
