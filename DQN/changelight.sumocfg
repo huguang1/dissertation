@@ -2,6 +2,7 @@
     <input>
         <net-file value="./Net/changelight.net.xml"/>
         <route-files value="./Rou/changelight.rou.xml"/>
+        <additional-files value="./Add/changelight.det.xml"/>
         <gui-settings-file value="changelight.settings.xml"/>
     </input>
     <time>

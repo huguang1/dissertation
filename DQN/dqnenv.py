@@ -2,17 +2,18 @@ import random
 import copy
 import traci
 from collections import defaultdict
-from collections import Counter
+import numpy as np
 
 
 class dqnEnv():
-    def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, dict_connection,
+    def __init__(self, sumoBinary, net_file: str, cfg_file: str, edgelists: list, alldets: list, dict_connection,
                  destination: str, state_size: int, action_size: int, use_gui: bool = True,
                  begin_time: int = 0, num_seconds: int = 3600, max_depart_delay: int = 10000):
         self.sumoBinary = sumoBinary
         self.net = net_file
         self.sumocfg = cfg_file
         self.edgelists = edgelists
+        self.alldets = alldets
         self.use_gui = use_gui
         self.destination = destination
         self.episode = 0  # # of run time
@@ -26,7 +27,7 @@ class dqnEnv():
         self.veh_list = []
         self.action = {}
 
-    def start_simulation(self, agent_dict):
+    def start_simulation(self):
         sumo_cmd = [self.sumoBinary, '-c', self.sumocfg, '--max-depart-delay', str(self.max_depart_delay)]
         self.sumo.start(sumo_cmd)
         max_speed = 20  # 车辆的最大速度（以米/秒为单位）
@@ -35,17 +36,10 @@ class dqnEnv():
         for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
-            action = int(agent_dict[name].get_action())
-            self.action[name] = action
-            self.sumo.route.add(route_name, route_list[action-1])
-            # self.sumo.route.add(route_name, route_list[0])
+            self.sumo.route.add(route_name, route_list[0])
             self.sumo.vehicle.add(name, route_name)
             self.sumo.vehicle.setMaxSpeed(name, max_speed)
             self.sumo.vehicle.setMinGap(name, min_gap)
-
-        counter = Counter(self.action.values())
-        most_common = counter.most_common(1)
-        print('选择', most_common)
         self.dict_edgelengths, self.list_edgelengths = self.get_edgelengths()
         destlane = self.destination + '_0'
         self.destCord = self.sumo.lane.getShape(destlane)[0]
@@ -53,10 +47,10 @@ class dqnEnv():
     def sumoclose(self):
         self.sumo.close()
 
-    def reset(self, agent_dict):
+    def reset(self):
 
         self.episode += 1
-        self.start_simulation(agent_dict)
+        self.start_simulation()
         curlane = self.get_curlane("veh0")
         while curlane == '':
             curlane = self.get_curlane("veh0")
@@ -105,12 +99,46 @@ class dqnEnv():
             list_edgelengths.append(length)
         return dict_edgelengths, list_edgelengths
 
+    def get_numVeh(self, det):
+        num_veh = self.sumo.lanearea.getLastStepVehicleNumber(det)
+        return num_veh
+
+    def get_state(self, veh, curedge):  # 총 64개 원소
+        state = []
+
+        for edge in self.edgelists:  # 20条道路上车辆的信息
+            det = edge.replace("E", "D")
+            state.append(self.get_numVeh(det))
+
+        for edge in self.edgelists:  # 用户获取这条路上的车辆的平均车速
+            state.append(self.sumo.edge.getLastStepMeanSpeed(edge))
+        state.extend(self.list_edgelengths)  # 20获取路线的长度
+        curlane = curedge + '_0'  # curedge좌표
+        curCord = self.sumo.lane.getShape(curlane)[0]  # 这个应该是当前的道路信息
+        state.extend(list(curCord))
+        state.extend(list(self.destCord))  # 这个是终点
+        return state
+
+    def get_action(self, state):
+
+        if np.random.rand() <= self.epsilon:
+            action = random.randrange(self.action_size)
+        else:
+            qvalue = self.model(state)
+            action = np.argmax(qvalue[0])
+        return action
+
     def get_all_curedge(self, curedge_dict):
         vehicle_ids = self.sumo.vehicle.getIDList()
-        for i in vehicle_ids:
-            curedge = self.get_RoadID(i)
+        for veh in vehicle_ids:
+            curedge = self.get_RoadID(veh)
+            if veh not in curedge_dict.keys():
+                state = self.get_state(veh, curedge)  # 这个状态有46个
+                action = self.get_action(state)
+                self.sumo.vehicle.changeTarget(veh, [])  # 차량 움직여!
+                pass
             if curedge in ["E0", "E4"]:
-                curedge_dict[i] = curedge
+                curedge_dict[veh] = curedge
         return curedge_dict
 
     def step(self):

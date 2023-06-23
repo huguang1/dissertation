@@ -10,7 +10,7 @@ from xml.etree.ElementTree import parse
 from collections import defaultdict
 from sumolib import checkBinary
 from dqnenv import dqnEnv
-from dqn_store import DQNLearn
+from dqnagent import dqnAgent
 import math
 
 if 'SUMO_HOME' in os.environ:
@@ -58,6 +58,7 @@ def get_edgesinfo(net):
     root = tree.getroot()
     alledgelists = root.findall("edge")
     edgesinfo = [x.find("lane").attrib for x in alledgelists]
+    edgesinfo = [edge for edge in edgesinfo if ':' not in edge.get("id")]
     return edgesinfo
 
 
@@ -85,32 +86,55 @@ def calculate_connections(edgelists, net):
     return dict_connection
 
 
+def generate_lanedetectionfile(net, det):
+    # generate det.xml file by setting a detector at the end of each lane (-10m)
+    alledges = get_alledges(net)
+    edgesinfo = get_edgesinfo(net)
+    alllanes = [edge + '_0' for edge in alledges]
+    alldets = [edge.replace("E", "D") for edge in alledges]
+
+    with open(det, "w") as f:
+        print('<additional>', file=f)
+        for i, v in enumerate(edgesinfo):
+            print(
+                '        <laneAreaDetector id="%s" lane="%s" pos="0.0" length="%s" freq ="%s" file="dqn_detfile.out"/>'
+                % (alldets[i], v['id'], v['length'], "1"), file=f)
+        print('</additional>', file=f)
+    return alldets
+
+
 def get_alldets(alledges):
     alldets = [edge.replace("E", "D") for edge in alledges]
     return alldets
 
 
-def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, destination, state_size,
+def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
-    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists,
+    env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
                  action_size=action_size)
     start = time.time()
     agent_dict = {}  # 每个汽车都有一个agent
     for i in range(1000):
-        agent_dict["veh"+str(i)] = DQNLearn()
+        agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
         a = time.time()
-        env.reset(agent_dict)
+        env.reset()
         score, action = env.step()
         experiment_time = env.get_time()
         env.sumoclose()
         for i, v in score.items():
             passtime = v["E4"] - v["E0"]
             score[i] = passtime
-        for i, v in score.items():
-            agent_dict[i].store(action[i], v)
+        for i, agent in agent_dict.items():
+            # 将reward放到记录中去
+            agent.append_sample(state, action, reward, state, done)
+            # 训练
+            if len(agent.memory) >= agent.train_start:
+                agent.train_model()
+            # 更新模型
+            agent.update_target_model()
         reward = sorted(list(score.values()))
         print(sum(reward)/len(reward))
         print(reward)
@@ -125,6 +149,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, d
 if __name__ == "__main__":
     route_name = "changelight"
     net = f"Net/{route_name}.net.xml"
+    det = f"Add/{route_name}.det.xml"
     sumocfg = f"{route_name}.sumocfg"
     destination = 'E4'
     successend = ["E4"]
@@ -135,16 +160,18 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        sumoBinary = checkBinary('sumo')
-        # sumoBinary = checkBinary('sumo-gui')
+        # sumoBinary = checkBinary('sumo')
+        sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
     else:
         num_episode = 1000
 
-    edgelists = get_alledges(net)  # 총 20개 출력
+    edgelists = get_alledges(net)
     dict_connection = calculate_connections(edgelists, net)
+    dets = generate_lanedetectionfile(net, det)  #
+    alldets = get_alldets(edgelists)
 
-    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, dict_connection, destination, state_size,
+    dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size)
