@@ -141,7 +141,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
                 agent.train_model()
             # 更新模型
             agent.update_target_model()
-        reward = sorted(list(score.values()))
+        reward = sorted([-1*i for i in list(score.values())])
         print(sum(reward)/len(reward))
         print(reward)
         print(experiment_time)
