@@ -142,9 +142,9 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
             # 更新模型
             agent.update_target_model()
         reward = sorted([-1*i for i in list(score.values())])
-        print(sum(reward)/len(reward))
-        print(reward)
-        print(experiment_time)
+        print(f'average time for all car: {sum(reward)/len(reward)}')
+        print('all the time of all car: ', reward)
+        print('The time required for an experiment: ', experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
         print('执行时间', time.time() - a)
 
