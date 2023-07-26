@@ -131,7 +131,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         env.action_list = []
         env.sumoclose()
         for i, v in score.items():
-            passtime = v["E4"] - v["E0"]
+            passtime = v["E0"] - v["E4"]
             score[i] = passtime
         for i, agent in agent_dict.items():
             # 将reward放到记录中去
@@ -141,7 +141,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
                 agent.train_model()
             # 更新模型
             agent.update_target_model()
-        reward = sorted([-1*i for i in list(score.values())])
+        reward = sorted(list(score.values()))
         print(f'average time for all car: {sum(reward)/len(reward)}')
         print('all the time of all car: ', reward)
         print('The time required for an experiment: ', experiment_time)
