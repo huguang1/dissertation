@@ -25,7 +25,7 @@ else:
 def get_options():
     optParser = optparse.OptionParser()
     optParser.add_option("-N", "--num_episode",
-                         default=1000, help="numer of episode to run qlenv")
+                         default=10, help="numer of episode to run qlenv")
     optParser.add_option("--nogui", action="store_true",
                          default=False, help="run commandline version of sumo")
     optParser.add_option("--noplot", action="store_true",
@@ -118,6 +118,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
                  action_size=action_size, agent_dict=agent_dict)
     start = time.time()
+    average_list = []
     for episode in range(num_episode):
         print("\n********#{} episode start***********".format(episode))
         a = time.time()
@@ -142,7 +143,9 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
             # 更新模型
             agent.update_target_model()
         reward = sorted([-1*i for i in list(score.values())])
-        print(f'average time for all car: {sum(reward)/len(reward)}')
+        average = sum(reward)/len(reward)
+        average_list.append(average)
+        print(f'average time for all car: {average}')
         print('all the time of all car: ', reward)
         print('The time required for an experiment: ', experiment_time)
         print("\n****episode: {} | score: {}".format(episode, score))
@@ -150,6 +153,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
 
     end = time.time()
     print('Source Code Time: ', end - start)
+    print(average_list)
 
 
 if __name__ == "__main__":
