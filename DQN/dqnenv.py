@@ -35,7 +35,7 @@ class dqnEnv():
         min_gap = 5  # 车辆之间的最小间距（以米为单位）
         # route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
         route_list = [["E0"]]
-        for i in range(100):
+        for i in range(10):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, route_list[0])
