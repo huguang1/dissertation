@@ -112,7 +112,7 @@ def get_alldets(alledges):
 def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
     agent_dict = {}  # 每个汽车都有一个agent
-    for i in range(10):
+    for i in range(1000):
         agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
@@ -154,6 +154,16 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
     end = time.time()
     print('Source Code Time: ', end - start)
     print(average_list)
+
+
+"""
+100%  [1069.081, 1069.081, 1069.081, 1069.081, 1069.081, 1069.081, 1069.081, 1069.081, 1069.081, 1069.081]
+90% [886.38, 867.057, 877.81, 880.957, 852.013, 858.631, 899.506, 869.731, 834.675, 852.192]
+80% [701.639, 700.916, 705.938, 718.093, 722.722, 742.117, 726.131, 768.65, 722.579, 746.041]
+70% [690.927, 685.186, 671.987, 688.682, 679.754, 682.527, 689.587, 689.264, 677.464, 690.783]
+60% [708.489, 699.986, 695.856, 696.305, 700.358, 698.452, 688.072, 702.539, 706.499, 699.437]
+50% [726.531, 720.826, 722.748, 723.074, 728.552, 712.958, 720.039, 728.765, 726.42, 724.658]
+"""
 
 
 if __name__ == "__main__":

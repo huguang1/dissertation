@@ -35,7 +35,7 @@ class dqnEnv():
         min_gap = 5  # 车辆之间的最小间距（以米为单位）
         # route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
         route_list = [["E0"]]
-        for i in range(10):
+        for i in range(1000):
             route_name = "rou" + str(i)
             name = "veh" + str(i)
             self.sumo.route.add(route_name, route_list[0])
@@ -122,15 +122,16 @@ class dqnEnv():
         for veh in vehicle_ids:
             curedge = self.get_RoadID(veh)
             if veh not in curedge_dict.keys():
-                state = self.get_state(veh, curedge)  # 这个状态有46个
-                state = np.reshape(state, [1, 46])
-                self.agent_dict[veh].state = state
-                action = self.agent_dict[veh].get_action(state)
+                # state = self.get_state(veh, curedge)  # 这个状态有46个
+                # state = np.reshape(state, [1, 46])
+                # self.agent_dict[veh].state = state
+                # action = self.agent_dict[veh].get_action(state)
                 # action = round(random.uniform(-0.4999, 0.4999))   # 100% 0
                 # action = round(random.uniform(-0.4, 0.6))  # 90% 0
                 # action = round(random.uniform(-0.3, 0.7))  # 80% 0
                 # action = round(random.uniform(-0.2, 0.8))  # 70% 0
                 # action = round(random.uniform(-0.1, 0.9))  # 60% 0
+                action = round(random.uniform(0, 1))  # 50% 0
                 self.action_list.append(action)
                 self.agent_dict[veh].action = action
                 route_list = [["E0", "E1", "E2", "E3", "E4"], ["E0", "E5", "E6", "E7", "E4"]]
