@@ -112,7 +112,7 @@ def get_alldets(alledges):
 def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_connection, destination, state_size,
             action_size):
     agent_dict = {}  # 每个汽车都有一个agent
-    for i in range(1000):
+    for i in range(100):
         agent_dict["veh"+str(i)] = dqnAgent(edgelists, dict_connection, state_size, action_size, num_episode)
     env = dqnEnv(sumoBinary, net_file=net, cfg_file=sumocfg, edgelists=edgelists, alldets=alldets,
                  dict_connection=dict_connection, destination=destination, state_size=state_size,
@@ -131,7 +131,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         env.action_list = []
         env.sumoclose()
         for i, v in score.items():
-            passtime = v["E0"] - v["E4"]
+            passtime = v["E4"] - v["E0"]
             score[i] = passtime
         for i, agent in agent_dict.items():
             # 将reward放到记录中去
@@ -141,7 +141,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
                 agent.train_model()
             # 更新模型
             agent.update_target_model()
-        reward = sorted(list(score.values()))
+        reward = sorted([-1*i for i in list(score.values())])
         print(f'average time for all car: {sum(reward)/len(reward)}')
         print('all the time of all car: ', reward)
         print('The time required for an experiment: ', experiment_time)
@@ -166,8 +166,8 @@ if __name__ == "__main__":
     if options.nogui:
         sumoBinary = checkBinary('sumo')
     else:
-        # sumoBinary = checkBinary('sumo')
-        sumoBinary = checkBinary('sumo-gui')
+        sumoBinary = checkBinary('sumo')
+        # sumoBinary = checkBinary('sumo-gui')
 
     if options.num_episode:
         num_episode = int(options.num_episode)
