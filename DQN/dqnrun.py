@@ -25,7 +25,7 @@ else:
 def get_options():
     optParser = optparse.OptionParser()
     optParser.add_option("-N", "--num_episode",
-                         default=10, help="numer of episode to run qlenv")
+                         default=1000, help="numer of episode to run qlenv")
     optParser.add_option("--nogui", action="store_true",
                          default=False, help="run commandline version of sumo")
     optParser.add_option("--noplot", action="store_true",
@@ -145,6 +145,7 @@ def dqn_run(sumoBinary, num_episode, net, sumocfg, edgelists, alldets, dict_conn
         reward = sorted([-1*i for i in list(score.values())])
         average = sum(reward)/len(reward)
         average_list.append(average)
+        print(average_list)
         print(f'average time for all car: {average}')
         print('all the time of all car: ', reward)
         print('The time required for an experiment: ', experiment_time)
