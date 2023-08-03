@@ -68,8 +68,8 @@ print(k1[int(len(k1)/10*9 - 1)])
 print(k1[int(len(k1)/10*10 - 1)])
 
 x = [i for i in range(1, len(k1)+1)]
-plt.plot(x, k1, color='r', label="50%", linewidth=1.5)  # s-:方形
+plt.plot(x, k1, color='r', linewidth=1.5)  # s-:方形
 plt.xlabel("number of experiments", fontsize=16)  # 横坐标名字
 plt.ylabel("average time", fontsize=16)  # 纵坐标名字
-plt.legend(loc="best", fontsize=16)  # 图例
+# plt.legend(loc="best", fontsize=16)  # 图例
 plt.show()
